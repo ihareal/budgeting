@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>872</width>
-    <height>734</height>
+    <width>858</width>
+    <height>760</height>
    </rect>
   </property>
   <property name="font">
@@ -44,7 +44,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -641,16 +641,6 @@ border-radius: 10px;
        </layout>
       </widget>
       <widget class="QWidget" name="administratorPage">
-       <widget class="QTableWidget" name="tableWidget">
-        <property name="geometry">
-         <rect>
-          <x>200</x>
-          <y>0</y>
-          <width>611</width>
-          <height>321</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QWidget" name="verticalLayoutWidget">
         <property name="geometry">
          <rect>
@@ -1101,6 +1091,16 @@ border-radius: 10px;
          </item>
         </layout>
        </widget>
+       <widget class="QTableView" name="paymentsTableView">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>0</y>
+          <width>621</width>
+          <height>321</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -1111,7 +1111,7 @@ border-radius: 10px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>872</width>
+     <width>858</width>
      <height>20</height>
     </rect>
    </property>

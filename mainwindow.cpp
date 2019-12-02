@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Some design features
     ui->createNewAccountPage->adjustSize();
     ui->authorizationPage->adjustSize();
+    ui->administratorPage->adjustSize();
     adjustSize();
     ui->notificationLabel->show();
     ui->passwordEditField->setEchoMode(QLineEdit::Password);
@@ -76,6 +77,7 @@ void MainWindow::on_loginButton_clicked()
 {    
     QString pwd = ui->passwordEditField->text();
     QString login = ui->loginEditField->text();
+    bool isAdmin = false;
 
     // Check for null and set query
     if(pwd.length() != 0 && login.length() != 0 ){
@@ -93,13 +95,27 @@ void MainWindow::on_loginButton_clicked()
              if (query.first()){
                 QMessageBox::information(this, "Authorization notification", "You are successfully logged up.");               
                 this->close();
-                if(query.value(1).toString() == "admin" && query.value(2).toString() == "admin"){
-
-                } else {
-
+                qDebug()<< query.value(1);
+                qDebug()<< query.value(2);
+                if(query.value(1).toString() == "admin" && query.value(2).toString() == "admin"){                    
+                    isAdmin = true;
                 }
               }
             }
+            if (isAdmin){
+                ui->stackedWidget->setCurrentIndex(2);
+                // initialization payment table
+                QSqlQueryModel *paymentModel = new QSqlQueryModel();
+                QSqlQuery paymentQuery(QSqlDatabase::database());
+
+                paymentQuery.prepare("select * from BudgetingDatabase.dbo.Payments");
+                paymentQuery.exec();
+                paymentModel->setQuery(paymentQuery);
+                ui->paymentsTableView->setModel(paymentModel);
+            } else{
+                // TODO: create singletone service to store user data (balance & id)
+            }
+
             if (!query.first()){
                 QMessageBox::critical(this, "Authorization failed", "Error: Please, check your credentials.");
             }
