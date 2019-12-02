@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>500</height>
+    <width>907</width>
+    <height>447</height>
    </rect>
   </property>
   <property name="font">
@@ -44,7 +44,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -455,6 +455,12 @@ color: black;
        </layout>
       </widget>
       <widget class="QWidget" name="createNewAccountPage">
+       <property name="minimumSize">
+        <size>
+         <width>415</width>
+         <height>241</height>
+        </size>
+       </property>
        <layout class="QFormLayout" name="formLayout_3">
         <property name="leftMargin">
          <number>50</number>
@@ -634,6 +640,7 @@ border-radius: 10px;
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="page"/>
      </widget>
     </item>
    </layout>
@@ -643,7 +650,7 @@ border-radius: 10px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>476</width>
+     <width>907</width>
      <height>20</height>
     </rect>
    </property>
@@ -1110,11 +1117,6 @@ border-radius: 10px;
     <bool>true</bool>
    </property>
   </widget>
-  <action name="actionConnect_to_the_Database">
-   <property name="text">
-    <string>Connect to the Database</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDesktopWidget>
+#include <QMainWindow>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentIndex(0);   
 
     // Some design features
+    ui->createNewAccountPage->adjustSize();
+    ui->authorizationPage->adjustSize();
+    adjustSize();
     ui->notificationLabel->show();
     ui->passwordEditField->setEchoMode(QLineEdit::Password);
     ui->createPasswordEditField->setEchoMode(QLineEdit::Password);
@@ -119,12 +124,24 @@ void MainWindow::on_createAccountButton_clicked()
 //    this->setFixedSize(stack->currentWidget()->size());
 
     ui->stackedWidget->setCurrentIndex(1);
-    ui->authorizationPage->setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
-    ui->createNewAccountPage->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
-
+//    ui->authorizationPage->setSizePolicy(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
+//    ui->createNewAccountPage->setSizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
+//    ui->stackedWidget->setFixedSize(433, 485);
 //    ui->stackedWidget->adjustSize();
 //    adjustSize();
 
+//    QMainWindow w;
+//    QDesktopWidget dw;
+
+//    int ox = dw.width();
+//    int oy = dw.height();
+
+//    qDebug()<<ox;
+//    qDebug()<<oy;
+
+
+
+//    w.setFixedSize(ox, oy);
 
 
 }
