@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>907</width>
-    <height>447</height>
+    <width>872</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="font">
@@ -35,7 +35,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -640,7 +640,468 @@ border-radius: 10px;
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="administratorPage">
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>0</y>
+          <width>611</width>
+          <height>321</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QWidget" name="verticalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>181</width>
+          <height>651</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="navigationPanel">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item>
+          <widget class="QPushButton" name="categoriesOpenTableBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::DefaultContextMenu</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#categoriesOpenTableBtn{
+background-color: black;
+border-color: yellow;
+color: white;
+}
+
+#categoriesOpenTableBtn:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Categories</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="paymentsOpenTableBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsOpenTableBtn{
+background-color: black;
+border-color: yellow;
+color: white;
+}
+
+#paymentsOpenTableBtn:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Payments</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="usersCategoriesOpenTableBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#usersCategoriesOpenTableBtn{
+background-color: black;
+border-color: yellow;
+color: white;
+}
+
+#usersCategoriesOpenTableBtn:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>UsersCategories</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="usersOpenTableBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#usersOpenTableBtn{
+background-color: black;
+border-color: yellow;
+color: white;
+}
+
+#usersOpenTableBtn:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Users</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>330</y>
+          <width>611</width>
+          <height>331</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="horizontalSpacing">
+          <number>5</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>20</number>
+         </property>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="paymentsIdEditField">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsIdEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="paymentsCostEditField">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsCostEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="paymentsUserIdEditField">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsUserIdEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="paymentsDescriptionEditField">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsDescriptionEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="paymentsCategoryEditField">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsCategoryEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Id</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Cost</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>UserId</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Description</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Category</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="paymentUpdateBtn">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#paymentUpdateBtn{
+background-color: black;
+color: yellow;
+border-style: double;
+border-width: 1px;
+border-color:	#E87F6F;
+border-radius: 10px;
+}
+
+#paymentUpdateBtn:hover{
+background-color: white;
+color: black;
+}</string>
+             </property>
+             <property name="text">
+              <string>Update payment</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="paymentSaveBtn">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#paymentSaveBtn{
+background-color: black;
+color: green;
+border-style: double;
+border-width: 1px;
+border-color:	#E87F6F;
+border-radius: 10px;
+}
+
+#paymentSaveBtn:hover{
+background-color: white;
+color: black;
+}</string>
+             </property>
+             <property name="text">
+              <string>Save payment</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="paymentDeleteBtn">
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#paymentDeleteBtn{
+background-color: black;
+border-color: yellow;
+color: red;
+border-style: double;
+border-width: 1px;
+border-color:	#E87F6F;
+border-radius: 10px;
+}
+
+#paymentDeleteBtn:hover{
+background-color: white;
+color: black;
+}</string>
+             </property>
+             <property name="text">
+              <string>Delete payment</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Date</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDateEdit" name="paymentsDateEditField">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#paymentsDateEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -650,7 +1111,7 @@ border-radius: 10px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>907</width>
+     <width>872</width>
      <height>20</height>
     </rect>
    </property>
