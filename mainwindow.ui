@@ -465,75 +465,6 @@ color: black;
         <property name="rightMargin">
          <number>50</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="createLoginEditField">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#createLoginEditField{
-background-color: white; 
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-}</string>
-          </property>
-          <property name="inputMask">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="placeholderText">
-           <string>Login</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="createPasswordEditField">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#createPasswordEditField{
-background-color: white; 
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-}</string>
-          </property>
-          <property name="inputMask">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="echoMode">
-           <enum>QLineEdit::Normal</enum>
-          </property>
-          <property name="readOnly">
-           <bool>false</bool>
-          </property>
-          <property name="placeholderText">
-           <string>Password</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="1">
          <widget class="QLabel" name="createNotificationLabel">
           <property name="font">
@@ -629,6 +560,75 @@ color: black;
           </property>
           <property name="text">
            <string>Back to login page</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLineEdit" name="createPasswordEditField">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#createPasswordEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+          </property>
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Normal</enum>
+          </property>
+          <property name="readOnly">
+           <bool>false</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Password</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLineEdit" name="createLoginEditField">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#createLoginEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+          </property>
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Login</string>
           </property>
          </widget>
         </item>
