@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>858</width>
-    <height>760</height>
+    <width>880</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="font">
@@ -44,7 +44,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -647,7 +647,7 @@ border-radius: 10px;
           <x>0</x>
           <y>0</y>
           <width>181</width>
-          <height>651</height>
+          <height>661</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="navigationPanel">
@@ -1111,7 +1111,7 @@ border-radius: 10px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>858</width>
+     <width>880</width>
      <height>20</height>
     </rect>
    </property>
