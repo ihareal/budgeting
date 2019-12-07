@@ -93,32 +93,35 @@ void MainWindow::on_loginButton_clicked()
         } else {
             while(query.next()){
              if (query.first()){
-                QMessageBox::information(this, "Authorization notification", "You are successfully logged up.");               
-                this->close();
-                qDebug()<< query.value(1);
-                qDebug()<< query.value(2);
+                QMessageBox::information(this, "Authorization notification", "You are successfully logged up.");
                 if(query.value(1).toString() == "admin" && query.value(2).toString() == "admin"){                    
                     isAdmin = true;
-                }
+                    ui->stackedWidget->setCurrentIndex(2);
+                 }
               }
             }
-            if (isAdmin){
-                ui->stackedWidget->setCurrentIndex(2);
-                // initialization payment table
-                QSqlQueryModel *paymentModel = new QSqlQueryModel();
-                QSqlQuery paymentQuery(QSqlDatabase::database());
+            try {
+                if (isAdmin == true){
+                    ui->stackedWidget->setCurrentIndex(2);
+                    // initialization payment table
+                    QSqlQueryModel *paymentModel = new QSqlQueryModel();
+                    QSqlQuery paymentQuery(QSqlDatabase::database());
 
-                paymentQuery.prepare("select * from BudgetingDatabase.dbo.Payments");
-                paymentQuery.exec();
-                paymentModel->setQuery(paymentQuery);
-                ui->paymentsTableView->setModel(paymentModel);
-            } else{
-                // TODO: create singletone service to store user data (balance & id)
+                    paymentQuery.prepare("select * from BudgetingDatabase.dbo.Payments");
+                    paymentQuery.exec();
+                    paymentModel->setQuery(paymentQuery);
+                    ui->paymentsTableView->setModel(paymentModel);
+                } else{
+                    // TODO: create singletone service to store user data (balance & id)
+                }
+
+                if (!query.first()){
+                    QMessageBox::critical(this, "Authorization failed", "Error: Please, check your credentials.");
+                }
+            } catch (std::exception & e) {
+                qDebug() << &e;
             }
 
-            if (!query.first()){
-                QMessageBox::critical(this, "Authorization failed", "Error: Please, check your credentials.");
-            }
         }
     } else {
         QMessageBox::warning(this, "Authorization failed", "Error: Please, enter your credentials.");
