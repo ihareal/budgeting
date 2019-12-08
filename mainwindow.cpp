@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QDesktopWidget>
 #include <QMainWindow>
+#include <QStyle>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,12 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // set authorization widget as default
-    ui->stackedWidget->setCurrentIndex(0);   
+    ui->stackedWidget->setCurrentIndex(0);
 
     // Some design features
     ui->createNewAccountPage->adjustSize();
-    ui->authorizationPage->adjustSize();
-    ui->administratorPage->adjustSize();
+    ui->authorizationPage->adjustSize();    
     adjustSize();
     ui->notificationLabel->show();
     ui->passwordEditField->setEchoMode(QLineEdit::Password);
@@ -96,13 +97,17 @@ void MainWindow::on_loginButton_clicked()
                 QMessageBox::information(this, "Authorization notification", "You are successfully logged up.");
                 if(query.value(1).toString() == "admin" && query.value(2).toString() == "admin"){                    
                     isAdmin = true;
-                    ui->stackedWidget->setCurrentIndex(2);
                  }
               }
             }
             try {
                 if (isAdmin == true){
                     ui->stackedWidget->setCurrentIndex(2);
+
+                    ui->administratorPage->setMinimumSize(828, 678);
+                    ui->administratorPage->adjustSize();
+                    adjustSize();
+
                     // initialization payment table
                     QSqlQueryModel *paymentModel = new QSqlQueryModel();
                     QSqlQuery paymentQuery(QSqlDatabase::database());
@@ -111,6 +116,8 @@ void MainWindow::on_loginButton_clicked()
                     paymentQuery.exec();
                     paymentModel->setQuery(paymentQuery);
                     ui->paymentsTableView->setModel(paymentModel);
+
+                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->administratorPage->size(), qApp->desktop()->availableGeometry()));
                 } else{
                     // TODO: create singletone service to store user data (balance & id)
                 }
@@ -286,5 +293,34 @@ void MainWindow::on_createLoginEditField_textChanged(const QString &login)
 
 void MainWindow::on_goBackToLoginButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(0);    
+}
+
+
+void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->paymentsTableView->model()->data(index).toString();
+    qDebug()<< index.column();
+    qDebug()<< index.row();
+    QSqlQuery query(QSqlDatabase::database("newConnection"));
+
+    if (index.column() == 5){
+        query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value or payments.Cost = :value or payments.UserId = :value or payments.Description = :value or payments.Category = :value or payments.Date = :value"));
+        query.bindValue(":value", checkedColumnData);
+    }
+    query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value or payments.Cost = :value or payments.UserId = :value or payments.Description = :value or payments.Category = :value or payments.Date = :value"));
+    query.bindValue(":value", checkedColumnData);
+    if(query.exec()){
+        while (query.next()) {
+            ui->paymentsIdEditField->setText(query.value(0).toString());
+            ui->paymentsCostEditField->setText(query.value(1).toString());
+            ui->paymentsUserIdEditField->setText(query.value(2).toString());
+            ui->paymentsDescriptionEditField->setText(query.value(3).toString());
+            ui->paymentsCategoryEditField->setText(query.value(4).toString());
+            ui->paymentsDateEditField->setDate(query.value(5).toDate());
+        }
+    } else{
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+    qDebug()<< index;
 }

@@ -38,6 +38,8 @@ private slots:
     void on_createLoginEditField_textChanged(const QString &arg1);
     void on_goBackToLoginButton_clicked();
 
+    void on_paymentsTableView_activated(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
