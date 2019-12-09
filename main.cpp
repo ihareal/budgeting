@@ -5,7 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setStyle(QStyleFactory::create("Fusion"));
+    a.setStyle(QStyleFactory::create("Windows"));
+    qDebug() << QStyleFactory::keys();
     MainWindow w;   
     w.show();
     return a.exec();

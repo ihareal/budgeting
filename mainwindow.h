@@ -40,6 +40,10 @@ private slots:
 
     void on_paymentsTableView_activated(const QModelIndex &index);
 
+    void on_paymentDeleteBtn_clicked();
+
+    void on_paymentUpdateBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

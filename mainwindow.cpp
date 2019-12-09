@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <payments.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     db.setHostName("AMD_A10-7850K\\SQLEXPRESS");
     db.setDatabaseName("mydsn64");  
     db.open();
+
+    QString stringTest;
 
     if (!db.open()){
         QMessageBox::warning(this, "Database failed", "There is no connection with database.");
@@ -300,9 +303,15 @@ void MainWindow::on_goBackToLoginButton_clicked()
 void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
 {
     QString checkedColumnData = ui->paymentsTableView->model()->data(index).toString();
+
     qDebug()<< index.column();
     qDebug()<< index.row();
     QSqlQuery query(QSqlDatabase::database("newConnection"));
+    QMessageBox msgBox;
+
+    // static fields of class
+    Payments::Id = 15;
+    qDebug()<< Payments::Id;
 
     if (index.column() == 5){
         query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value or payments.Cost = :value or payments.UserId = :value or payments.Description = :value or payments.Category = :value or payments.Date = :value"));
@@ -319,8 +328,34 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
             ui->paymentsCategoryEditField->setText(query.value(4).toString());
             ui->paymentsDateEditField->setDate(query.value(5).toDate());
         }
-    } else{
-        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+
     }
-    qDebug()<< index;
+
+}
+
+void MainWindow::on_paymentDeleteBtn_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?.",
+                                                             QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (reply == QMessageBox::Ok){
+        // delete row
+    } else {
+       // nothing
+    }
+}
+
+void MainWindow::on_paymentUpdateBtn_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Update warning", "Attention: Do you really want to update this entity?.",
+                                                             QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (reply == QMessageBox::Ok){
+        // update row
+        qDebug()<<Payments::Id;
+        qDebug()<<Payments::Date;
+    } else {
+       // nothing
+    }
 }
