@@ -107,7 +107,7 @@ void MainWindow::on_loginButton_clicked()
                 if (isAdmin == true){
                     ui->stackedWidget->setCurrentIndex(2);
 
-                    ui->administratorPage->setMinimumSize(828, 678);
+                    ui->administratorPage->setMinimumSize(851, 671);
                     ui->administratorPage->adjustSize();
                     adjustSize();
 
