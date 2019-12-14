@@ -306,27 +306,38 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
 
     qDebug()<< index.column();
     qDebug()<< index.row();
+    qDebug()<< index;
     QSqlQuery query(QSqlDatabase::database("newConnection"));
     QMessageBox msgBox;
 
-    // static fields of class
-    Payments::Id = 15;
     qDebug()<< Payments::Id;
 
-    if (index.column() == 5){
-        query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value or payments.Cost = :value or payments.UserId = :value or payments.Description = :value or payments.Category = :value or payments.Date = :value"));
-        query.bindValue(":value", checkedColumnData);
-    }
-    query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value or payments.Cost = :value or payments.UserId = :value or payments.Description = :value or payments.Category = :value or payments.Date = :value"));
-    query.bindValue(":value", checkedColumnData);
+    QModelIndex customIndex = ui->paymentsTableView->model()->index(index.row(), 0);
+
+    int id = ui->paymentsTableView->model()->data(customIndex).toInt();
+    query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value"));
+    query.bindValue(":value", id);
+    Payments::Id = id;
     if(query.exec()){
         while (query.next()) {
+            // fill update edit fields
             ui->paymentsIdEditField->setText(query.value(0).toString());
             ui->paymentsCostEditField->setText(query.value(1).toString());
             ui->paymentsUserIdEditField->setText(query.value(2).toString());
             ui->paymentsDescriptionEditField->setText(query.value(3).toString());
             ui->paymentsCategoryEditField->setText(query.value(4).toString());
             ui->paymentsDateEditField->setDate(query.value(5).toDate());
+
+            // fill create edit fields
+            ui->paymentsIdEditField_2->setText(query.value(0).toString());
+            ui->paymentsCostEditField_2->setText(query.value(1).toString());
+            ui->paymentsUserIdEditField_2->setText(query.value(2).toString());
+            ui->paymentsDescriptionEditField_2->setText(query.value(3).toString());
+            ui->paymentsCategoryEditField_2->setText(query.value(4).toString());
+            ui->paymentsDateEditField_2->setDate(query.value(5).toDate());
+
+            // fill delete id field
+            ui->DeletePaymentIdEdit->setText(query.value(0).toString());
         }
     } else {
 

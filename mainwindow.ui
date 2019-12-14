@@ -863,7 +863,7 @@ color: black;
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <property name="iconSize">
          <size>
@@ -1395,9 +1395,9 @@ color: black;
          <widget class="QLabel" name="label_19">
           <property name="geometry">
            <rect>
-            <x>130</x>
+            <x>140</x>
             <y>110</y>
-            <width>16</width>
+            <width>21</width>
             <height>21</height>
            </rect>
           </property>
@@ -1414,14 +1414,20 @@ color: black;
          <widget class="QLineEdit" name="DeletePaymentIdEdit">
           <property name="geometry">
            <rect>
-            <x>180</x>
+            <x>170</x>
             <y>110</y>
-            <width>351</width>
-            <height>21</height>
+            <width>341</width>
+            <height>25</height>
            </rect>
           </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">#DeletePaymentEdit{
+           <string notr="true">#DeletePaymentIdEdit{
 background-color: white; 
 border-style: outset;
 border-width: 1px;
@@ -1433,7 +1439,7 @@ border-radius: 10px;
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>260</y>
+            <y>250</y>
             <width>577</width>
             <height>33</height>
            </rect>
