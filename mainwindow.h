@@ -44,6 +44,8 @@ private slots:
 
     void on_paymentUpdateBtn_clicked();
 
+    void on_DeletePaymentButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

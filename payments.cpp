@@ -1,6 +1,6 @@
 #include "payments.h"
 
-    // initial values
+ // initial values
  int Payments::Id = 0;
  float Payments::Cost = 0.0;
  int Payments::UserId = 0;

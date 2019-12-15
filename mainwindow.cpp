@@ -5,6 +5,7 @@
 #include <QStyle>
 #include <QDesktopWidget>
 #include <payments.h>
+#include "dbhelper.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -308,8 +309,7 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
     qDebug()<< index.row();
     qDebug()<< index;
     QSqlQuery query(QSqlDatabase::database("newConnection"));
-    QMessageBox msgBox;
-
+    DbHelper::Row = index.row();
     qDebug()<< Payments::Id;
 
     QModelIndex customIndex = ui->paymentsTableView->model()->index(index.row(), 0);
@@ -329,7 +329,6 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
             ui->paymentsDateEditField->setDate(query.value(5).toDate());
 
             // fill create edit fields
-            ui->paymentsIdEditField_2->setText(query.value(0).toString());
             ui->paymentsCostEditField_2->setText(query.value(1).toString());
             ui->paymentsUserIdEditField_2->setText(query.value(2).toString());
             ui->paymentsDescriptionEditField_2->setText(query.value(3).toString());
@@ -347,7 +346,7 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
 
 void MainWindow::on_paymentDeleteBtn_clicked()
 {
-    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?.",
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
                                                              QMessageBox::Ok | QMessageBox::Cancel);
 
     if (reply == QMessageBox::Ok){
@@ -359,13 +358,35 @@ void MainWindow::on_paymentDeleteBtn_clicked()
 
 void MainWindow::on_paymentUpdateBtn_clicked()
 {
-    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Update warning", "Attention: Do you really want to update this entity?.",
-                                                             QMessageBox::Ok | QMessageBox::Cancel);
-
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Update warning", "Attention: Do you really want to update this entity?",
+                                                             QMessageBox::Ok | QMessageBox::Cancel); 
     if (reply == QMessageBox::Ok){
         // update row
         qDebug()<<Payments::Id;
         qDebug()<<Payments::Date;
+    } else {
+       // nothing
+    }
+}
+
+void MainWindow::on_DeletePaymentButton_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
+                                       QMessageBox::Ok | QMessageBox::Cancel);
+    QSqlQuery query(QSqlDatabase::database());
+    if (reply == QMessageBox::Ok){
+        // delete row
+        int id = Payments::Id;
+        qDebug()<<"Payments::Id "<<id;
+        query.prepare(QString("Delete from BudgetingDatabase.dbo.Payments where Id = :value"));
+        query.bindValue(":value", id);
+        if (!query.exec()){
+            QMessageBox::warning(this,"Database warning" ,"Query didn't execute properly!");
+        } else {
+            // update the table
+            ui->paymentsTableView->model()->removeRow(0);
+            ui->paymentsTableView->hideRow(DbHelper::Row);
+        }
     } else {
        // nothing
     }
