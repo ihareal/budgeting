@@ -46,9 +46,53 @@ private slots:
 
     void on_DeletePaymentButton_clicked();
 
+    void on_paymentCreateBtn_2_clicked();
+
+    void on_paymentsTableView_doubleClicked(const QModelIndex &index);
+
+    void on_paymentUpdateButton_clicked();
+
+    void on_categoriesOpenTableBtn_clicked();
+
+    void on_paymentsOpenTableBtn_clicked();
+
+    void on_categoriesTableView_doubleClicked(const QModelIndex &index);
+
+    void on_categoriesCreateButton_clicked();
+
+    void on_categoriesDeleteButton_clicked();
+
+    void on_categoriesUpdateButton_clicked();
+
+    void on_usersCategoriesOpenTableBtn_clicked();
+
+    void on_usersOpenTableBtn_clicked();
+
+    void on_usersCategoriesCreateButton_clicked();
+
+    void on_usersCategoriesTableView_doubleClicked(const QModelIndex &index);
+
+    void on_usersCategoriesDeleteButton_clicked();
+
+    void on_usersCategoriesTableView_2_doubleClicked(const QModelIndex &index);
+
+    void on_usersCategoriesDeleteButton_4_clicked();
+
+    void on_usersTableView_doubleClicked(const QModelIndex &index);
+
+    void on_usersDeleteButton_clicked();
+
+    void on_usersUpdateButton_clicked();
+
+    void on_usersCreateButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
+    QSqlTableModel *paymentModel;
+    QSqlTableModel *userModel;
+    QSqlTableModel *categoriesModel;
+    QSqlTableModel *userCategoriesModel;
     QSqlDatabase db;
     QSqlRelationalTableModel *relationalModel;
 };

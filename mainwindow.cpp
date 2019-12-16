@@ -6,6 +6,9 @@
 #include <QDesktopWidget>
 #include <payments.h>
 #include "dbhelper.h"
+#include <categories.h>
+#include <userscategories.h>
+#include <users.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -109,17 +112,71 @@ void MainWindow::on_loginButton_clicked()
                     ui->stackedWidget->setCurrentIndex(2);
 
                     ui->administratorPage->setMinimumSize(851, 671);
+                    ui->administratorPage->setMaximumSize(851, 671);
+
+                    ui->administratorPage->setSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
                     ui->administratorPage->adjustSize();
                     adjustSize();
 
-                    // initialization payment table
-                    QSqlQueryModel *paymentModel = new QSqlQueryModel();
-                    QSqlQuery paymentQuery(QSqlDatabase::database());
+                    // initialization payment table with QSqlQuery method
+                    // QSqlQueryModel *paymentModel = new QSqlQueryModel();
+                    // QSqlQuery paymentQuery(QSqlDatabase::database());
 
-                    paymentQuery.prepare("select * from BudgetingDatabase.dbo.Payments");
-                    paymentQuery.exec();
-                    paymentModel->setQuery(paymentQuery);
+                    // paymentQuery.prepare("select * from BudgetingDatabase.dbo.Payments");
+                    // paymentQuery.exec();
+                    // paymentModel->setQuery(paymentQuery);
+                    // ui->paymentsTableView->setModel(paymentModel);
+
+                    // set categories button active by default
+                    ui->categoriesOpenTableBtn->
+                                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+                    ui->TablesStackedWidget->setCurrentIndex(0);
+
+                    // *********** CATEGORIES ***********
+                    // categories model
+                    categoriesModel = new QSqlTableModel();
+                    categoriesModel->setTable("BudgetingDatabase.dbo.Categories");
+                    categoriesModel->select();
+                    // disable categories triggers
+                    ui->categoriesTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+                    // set category model to tableView
+                    ui->categoriesTableView->setModel(categoriesModel);
+                    // *********** CATEGORIES ***********
+
+                    // *********** USERS CATEGORIES ***********
+                    // user categories model
+                    userCategoriesModel = new QSqlTableModel();
+                    userCategoriesModel->setTable("BudgetingDatabase.dbo.UsersCategories");
+                    userCategoriesModel->select();
+                    // set users categories model to tableView
+                    ui->usersCategoriesTableView->setModel(userCategoriesModel);
+                    // *********** USERS CATEGORIES ***********
+
+                    // *********** USERS ***********
+                    userModel = new QSqlTableModel();
+                    userModel->setTable("BudgetingDatabase.dbo.Users");
+                    userModel->select();
+                    // disable users triggers
+                    ui->usersTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+                    // set users model to tableView
+                    ui->usersTableView->setModel(userModel);
+                    // *********** USERS ***********
+
+                    // *********** PAYMENT ***********
+                    // payment model
+                    paymentModel = new QSqlTableModel();
+                    paymentModel->setTable("BudgetingDatabase.dbo.Payments");
+                    paymentModel->select();
+                    // disable payment triggers
+                    ui->paymentsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+                    // set payment model to tableView
                     ui->paymentsTableView->setModel(paymentModel);
+                    // *********** PAYMENT ***********
+
+
+
+
 
                     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->administratorPage->size(), qApp->desktop()->availableGeometry()));
                 } else{
@@ -308,7 +365,7 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
     qDebug()<< index.column();
     qDebug()<< index.row();
     qDebug()<< index;
-    QSqlQuery query(QSqlDatabase::database("newConnection"));
+    QSqlQuery query(QSqlDatabase::database());
     DbHelper::Row = index.row();
     qDebug()<< Payments::Id;
 
@@ -325,21 +382,21 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
             ui->paymentsCostEditField->setText(query.value(1).toString());
             ui->paymentsUserIdEditField->setText(query.value(2).toString());
             ui->paymentsDescriptionEditField->setText(query.value(3).toString());
-            ui->paymentsCategoryEditField->setText(query.value(4).toString());
+            ui->paymentsCategoryIdEditField->setText(query.value(4).toString());
             ui->paymentsDateEditField->setDate(query.value(5).toDate());
 
             // fill create edit fields
-            ui->paymentsCostEditField_2->setText(query.value(1).toString());
-            ui->paymentsUserIdEditField_2->setText(query.value(2).toString());
-            ui->paymentsDescriptionEditField_2->setText(query.value(3).toString());
-            ui->paymentsCategoryEditField_2->setText(query.value(4).toString());
-            ui->paymentsDateEditField_2->setDate(query.value(5).toDate());
+//            ui->paymentsCostEditField_2->setText(query.value(1).toString());
+//            ui->paymentsUserIdEditField_2->setText(query.value(2).toString());
+//            ui->paymentsDescriptionEditField_2->setText(query.value(3).toString());
+//            ui->paymentsCategoryEditField_2->setText(query.value(4).toString());
+//            ui->paymentsDateEditField_2->setDate(query.value(5).toDate());
 
             // fill delete id field
             ui->DeletePaymentIdEdit->setText(query.value(0).toString());
         }
     } else {
-
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
     }
 
 }
@@ -373,21 +430,528 @@ void MainWindow::on_DeletePaymentButton_clicked()
 {
     QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
                                        QMessageBox::Ok | QMessageBox::Cancel);
+
     QSqlQuery query(QSqlDatabase::database());
     if (reply == QMessageBox::Ok){
         // delete row
         int id = Payments::Id;
+        int manualId = ui->DeletePaymentIdEdit->text().toInt();
         qDebug()<<"Payments::Id "<<id;
         query.prepare(QString("Delete from BudgetingDatabase.dbo.Payments where Id = :value"));
-        query.bindValue(":value", id);
+        if (manualId != 0){
+            query.bindValue(":value", manualId);
+        } else {
+            query.bindValue(":value", id);
+        }
+
         if (!query.exec()){
-            QMessageBox::warning(this,"Database warning" ,"Query didn't execute properly!");
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
         } else {
             // update the table
-            ui->paymentsTableView->model()->removeRow(0);
-            ui->paymentsTableView->hideRow(DbHelper::Row);
+            // ui->paymentsTableView->hideRow(DbHelper::Row);
+            paymentModel->select();
         }
     } else {
        // nothing
+    }
+}
+
+
+void MainWindow::on_paymentCreateBtn_2_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.Payments (Cost, UserId, Description, CategoryId, Date) VALUES (:cost, :userId, :description, :categoryId, :date)");
+
+    // values
+    double cost = ui->paymentsCostEditField_2->text().toDouble();
+    qDebug()<< cost;
+    int userId = ui->paymentsUserIdEditField_2->text().toInt();
+    QString description = ui->paymentsDescriptionEditField_2->text();
+    int categoryId = ui->paymentsCategoryIdEditField_2->text().toInt();
+    QString date = ui->paymentsDateEditField_2->text();
+
+    // bind values
+    query.bindValue(":cost", cost);
+    query.bindValue(":userId", userId);
+    query.bindValue(":description", description);
+    query.bindValue(":categoryId", categoryId);
+    query.bindValue(":date", date);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        paymentModel->select();
+    }
+}
+
+void MainWindow::on_paymentsTableView_doubleClicked(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->paymentsTableView->model()->data(index).toString();
+
+    QSqlQuery query(QSqlDatabase::database());
+    DbHelper::Row = index.row();  
+
+    QModelIndex customIndex = ui->paymentsTableView->model()->index(index.row(), 0);
+
+    int id = ui->paymentsTableView->model()->data(customIndex).toInt();
+    query.prepare(QString("select * from BudgetingDatabase.dbo.Payments payments where payments.Id = :value"));
+    query.bindValue(":value", id);
+    Payments::Id = id;
+    if(query.exec()){
+        while (query.next()) {
+            // fill update edit fields
+            ui->paymentsIdEditField->setText(query.value(0).toString());
+            ui->paymentsCostEditField->setText(query.value(1).toString());
+            ui->paymentsUserIdEditField->setText(query.value(2).toString());
+            ui->paymentsDescriptionEditField->setText(query.value(3).toString());
+            ui->paymentsCategoryIdEditField->setText(query.value(4).toString());
+            ui->paymentsDateEditField->setDate(query.value(5).toDate());
+
+            // fill create edit fields
+//            ui->paymentsCostEditField_2->setText(query.value(1).toString());
+//            ui->paymentsUserIdEditField_2->setText(query.value(2).toString());
+//            ui->paymentsDescriptionEditField_2->setText(query.value(3).toString());
+//            ui->paymentsCategoryIdEditField_2->setText(query.value(4).toString());
+//            ui->paymentsDateEditField_2->setDate(query.value(5).toDate());
+
+            // fill delete id field
+            ui->DeletePaymentIdEdit->setText(query.value(0).toString());
+        }
+    } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+
+}
+
+void MainWindow::on_paymentUpdateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("UPDATE BudgetingDatabase.dbo.Payments SET Cost = :cost, UserId = :userId, Description = :description, CategoryId = :categoryId, Date = :date WHERE Id = :id");
+
+    // values
+    int id = ui->paymentsIdEditField->text().toInt();
+    double cost = ui->paymentsCostEditField->text().toDouble();
+    int userId = ui->paymentsUserIdEditField->text().toInt();
+    int categoryId = ui->paymentsCategoryIdEditField->text().toInt();
+    QString description = ui->paymentsDescriptionEditField->text();
+    QString date = ui->paymentsDateEditField->text();
+
+    // bind values
+    query.bindValue(":cost", cost);
+    query.bindValue(":userId", userId);
+    query.bindValue(":categoryId", categoryId);
+    query.bindValue(":date", date);
+    query.bindValue(":id", id);
+    query.bindValue(":description", description);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else{
+        paymentModel->select();
+        QMessageBox::information(this,"Database notification", "Entity has been successfully updated.");
+    }
+}
+
+void MainWindow::on_categoriesOpenTableBtn_clicked()
+{
+    ui->TablesStackedWidget->setCurrentIndex(0);
+
+    // reserve color is #A1ACB3
+    // set categories button with active color
+    ui->categoriesOpenTableBtn->
+                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others to passive
+    ui->usersOpenTableBtn->
+            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->paymentsOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->usersCategoriesOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+}
+
+void MainWindow::on_paymentsOpenTableBtn_clicked()
+{
+    ui->TablesStackedWidget->setCurrentIndex(1);
+
+    // reserve color is #A1ACB3
+    // set categories button with active color
+    ui->paymentsOpenTableBtn->
+                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others to passive
+    ui->usersOpenTableBtn->
+            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->categoriesOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->usersCategoriesOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+}
+
+void MainWindow::on_categoriesTableView_doubleClicked(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->paymentsTableView->model()->data(index).toString();
+
+    QSqlQuery query(QSqlDatabase::database());
+    DbHelper::Row = index.row();
+    QModelIndex customIndex = ui->categoriesTableView->model()->index(index.row(), 0);
+
+    int id = ui->categoriesTableView->model()->data(customIndex).toInt();
+    Categories::Id = id;
+    query.prepare(QString("select * from BudgetingDatabase.dbo.Categories categories where categories.Id = :value"));
+    query.bindValue(":value", id);
+    if(query.exec()){
+        while (query.next()) {
+            // fill update edit fields
+            ui->categoriesIdEditField->setText(query.value(0).toString());
+            ui->categoriesCategoryEditField->setText(query.value(1).toString());
+
+            // fill create edit fields
+            // ui->createCategoriesCostEditField->setText(query.value(1).toString());
+
+            // fill delete id field
+            ui->deleteCategoriesIdEditField->setText(query.value(0).toString());
+        }
+    } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+}
+
+void MainWindow::on_categoriesCreateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.Categories (Category) VALUES (:category)");
+
+    // values
+    QString category = ui->createCategoriesCostEditField->text();
+    query.bindValue(":category", category);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        categoriesModel->select();
+    }
+}
+
+void MainWindow::on_categoriesDeleteButton_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this category?",
+                                       QMessageBox::Ok | QMessageBox::Cancel);
+
+    QSqlQuery query(QSqlDatabase::database());
+    if (reply == QMessageBox::Ok){
+        // delete row
+        int id = Categories::Id;
+        int manualId = ui->deleteCategoriesIdEditField->text().toInt();
+        query.prepare(QString("Delete from BudgetingDatabase.dbo.Categories where Id = :value"));
+        if (manualId != 0){
+            query.bindValue(":value", manualId);
+        } else {
+            query.bindValue(":value", id);
+        }
+
+        if (!query.exec()){
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        } else {
+            // update the table
+            categoriesModel->select();
+        }
+    } else {
+       // Nothing happens if we answer no...
+    }
+}
+
+void MainWindow::on_categoriesUpdateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("UPDATE BudgetingDatabase.dbo.Categories SET Category = :category WHERE Id = :id");
+
+    // values
+    QString category = ui->categoriesCategoryEditField->text();
+    int id = ui->categoriesIdEditField->text().toInt();
+
+    // bind values
+    query.bindValue(":category", category);
+    query.bindValue(":id", id);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else{
+        categoriesModel->select();
+        QMessageBox::information(this,"Database notification", "Entity has been successfully updated.");
+    }
+}
+
+void MainWindow::on_usersCategoriesOpenTableBtn_clicked()
+{
+    ui->TablesStackedWidget->setCurrentIndex(2);
+
+    // set users categories button with active color
+    ui->usersCategoriesOpenTableBtn->
+                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others to passive
+    ui->usersOpenTableBtn->
+            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->categoriesOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->paymentsOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+}
+
+void MainWindow::on_usersOpenTableBtn_clicked()
+{
+    ui->TablesStackedWidget->setCurrentIndex(3);
+    // set users categories button with active color
+    ui->usersOpenTableBtn->
+                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others to passive
+    ui->usersCategoriesOpenTableBtn->
+            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->categoriesOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+    ui->paymentsOpenTableBtn
+            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+}
+
+void MainWindow::on_usersCategoriesCreateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.UsersCategories (UserId, CategoryId) VALUES (:userId, :categoryId)");
+
+    // values
+    int categoryId = ui->usersCategoriesCategoryIdCreateEditField->text().toInt();
+    int userId = ui->usersCategoriesUserIdCreateEditField->text().toInt();
+    query.bindValue(":categoryId", categoryId);
+    query.bindValue(":userId", userId);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        userCategoriesModel->select();
+    }
+}
+
+void MainWindow::on_usersCategoriesTableView_doubleClicked(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->usersCategoriesTableView->model()->data(index).toString();
+
+    QSqlQuery query(QSqlDatabase::database());
+    DbHelper::Row = index.row();
+    QModelIndex customIndex = ui->categoriesTableView->model()->index(index.row(), 0);
+
+    int id = ui->usersCategoriesTableView->model()->data(customIndex).toInt();
+    usersCategories::UserId = id;
+    query.prepare(QString("select * from BudgetingDatabase.dbo.UsersCategories usersCategories where usersCategories.UserId = :value"));
+    query.bindValue(":value", id);
+    if(query.exec()){
+        while (query.next()) {
+            // fill delete id field
+//            ui->usersCategoriesUserIdDeleteEditField->setText(query.value(0).toString());
+//            ui->usersCategoriesCategoryIdDeleteEditField->setText(query.value(1).toString());
+        }
+    } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+}
+
+void MainWindow::on_usersCategoriesDeleteButton_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
+                                       QMessageBox::Ok | QMessageBox::Cancel);
+
+    QSqlQuery query(QSqlDatabase::database());
+    if (reply == QMessageBox::Ok){
+        // delete row
+        int userId = usersCategories::UserId;
+        int manualId = ui->usersCategoriesUserIdDeleteEditField->text().toInt();
+        int categoryId = ui->usersCategoriesCategoryIdDeleteEditField->text().toInt();
+        query.prepare(QString("Delete from BudgetingDatabase.dbo.UsersCategories where UserId = :userId and CategoryId = :categoryId"));
+        if (manualId != 0){
+            query.bindValue(":userId", manualId);
+            query.bindValue(":categoryId", categoryId);
+        } else {
+            query.bindValue(":userId", userId);
+            query.bindValue(":categoryId", categoryId);
+        }
+
+        if (!query.exec()){
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        } else {
+            // update the table
+        }
+        userCategoriesModel->select();
+    } else {
+       // Nothing happens if we answer no...
+    }
+}
+
+void MainWindow::on_usersCategoriesTableView_2_doubleClicked(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->usersCategoriesTableView->model()->data(index).toString();
+
+    QSqlQuery query(QSqlDatabase::database());
+    DbHelper::Row = index.row();
+    QModelIndex customIndex = ui->usersCategoriesTableView->model()->index(index.row(), 0);
+
+    int id = ui->usersCategoriesTableView->model()->data(customIndex).toInt();
+    usersCategories::UserId = id;
+    query.prepare(QString("select * from BudgetingDatabase.dbo.UsersCategories usersCategories where usersCategories.UserId = :value"));
+    query.bindValue(":value", id);
+    if(query.exec()){
+        while (query.next()) {
+            // fill delete id field
+            ui->usersCategoriesUserIdDeleteEditField->setText(query.value(0).toString());
+            ui->usersCategoriesCategoryIdDeleteEditField->setText(query.value(1).toString());
+        }
+    } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+}
+
+void MainWindow::on_usersCategoriesDeleteButton_4_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.Payments (Cost, UserId, Description, CategoryId, Date) VALUES (:cost, :userId, :description, :categoryId, :date)");
+
+    // values
+    double cost = ui->paymentsCostEditField_2->text().toDouble();
+    qDebug()<< cost;
+    int userId = ui->paymentsUserIdEditField_2->text().toInt();
+    QString description = ui->paymentsDescriptionEditField_2->text();
+    int categoryId = ui->paymentsCategoryIdEditField_2->text().toInt();
+    QString date = ui->paymentsDateEditField_2->text();
+
+    // bind values
+    query.bindValue(":cost", cost);
+    query.bindValue(":userId", userId);
+    query.bindValue(":description", description);
+    query.bindValue(":categoryId", categoryId);
+    query.bindValue(":date", date);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        userModel->select();
+    }
+}
+
+void MainWindow::on_usersTableView_doubleClicked(const QModelIndex &index)
+{
+    QString checkedColumnData = ui->usersTableView->model()->data(index).toString();
+
+    QSqlQuery query(QSqlDatabase::database());
+    DbHelper::Row = index.row();
+    QModelIndex customIndex = ui->usersTableView->model()->index(index.row(), 0);
+
+    int id = ui->usersTableView->model()->data(customIndex).toInt();
+    users::Id = id;
+    query.prepare(QString("select * from BudgetingDatabase.dbo.Users users where users.Id = :value"));
+    query.bindValue(":value", id);
+    if(query.exec()){
+        while (query.next()) {
+            // fill delete id field
+            ui->userDeleteIdEditField->setText(query.value(0).toString());
+
+            // fill update fields
+            ui->usersIdUpdateEditField->setText(query.value(0).toString());
+            ui->usersLoginUpdateEditField->setText(query.value(1).toString());
+            ui->usersPasswordUpdateEditField->setText(query.value(2).toString());
+            ui->usersBalanceUpdateEditField->setText(query.value(3).toString());
+        }
+    } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+}
+
+void MainWindow::on_usersDeleteButton_clicked()
+{
+    QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
+                                       QMessageBox::Ok | QMessageBox::Cancel);
+
+    QSqlQuery query(QSqlDatabase::database());
+    if (reply == QMessageBox::Ok){
+        // delete row
+        int id = users::Id;
+        int manualId = ui->userDeleteIdEditField->text().toInt();
+        query.prepare(QString("Delete from BudgetingDatabase.dbo.Users where Id = :value"));
+        if (manualId != 0){
+            query.bindValue(":value", manualId);
+        } else {
+            query.bindValue(":value", id);
+        }
+
+        if (!query.exec()){
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        } else {
+            // update the table
+            // ui->paymentsTableView->hideRow(DbHelper::Row);
+            userModel->select();
+        }
+    } else {
+       // nothing
+    }
+}
+
+void MainWindow::on_usersUpdateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("UPDATE BudgetingDatabase.dbo.Users SET Login = :login, Password = :password, Balance = :balance WHERE Id = :id");
+
+    // values
+    int id = ui->usersIdUpdateEditField->text().toInt();
+    QString login = ui->usersLoginUpdateEditField->text();
+    QString password = ui->usersPasswordUpdateEditField->text();
+    double balance = ui->usersBalanceUpdateEditField->text().toDouble();
+
+    // bind values
+    query.bindValue(":login", login);
+    query.bindValue(":password", password);
+    query.bindValue(":balance", balance);
+    query.bindValue(":id", id);
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else{
+        userModel->select();
+        QMessageBox::information(this,"Database notification", "Entity has been successfully updated.");
+    }
+}
+
+void MainWindow::on_usersCreateButton_clicked()
+{
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.Users (Login, Password, Balance) VALUES (:login, :password, :balance)");
+
+    // values
+    QString login = ui->usersLoginCreateEditField->text();
+    QString password = ui->usersPasswordCreateEditField->text();
+    double balance = ui->usersBalanceCreateEditField->text().toDouble();
+
+    // bind values
+    query.bindValue(":login", login);
+    query.bindValue(":password", password);
+    query.bindValue(":balance", balance);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        userModel->select();
     }
 }
