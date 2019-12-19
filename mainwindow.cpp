@@ -9,7 +9,24 @@
 #include <categories.h>
 #include <userscategories.h>
 #include <users.h>
+#include <QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QLegend>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QHorizontalStackedBarSeries>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QCategoryAxis>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QPen>
 
+QT_CHARTS_USE_NAMESPACE
+
+// initialize user Id variable to delete user
+int userId;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -104,7 +121,14 @@ void MainWindow::on_loginButton_clicked()
                 QMessageBox::information(this, "Authorization notification", "You are successfully logged up.");
                 if(query.value(1).toString() == "admin" && query.value(2).toString() == "admin"){                    
                     isAdmin = true;
-                 }
+
+                    // special admin id
+                    users::Id = 999;
+                 } else{
+                    // setup user Id
+                    users::Id = query.value(0).toInt();
+                }
+
               }
             }
             try {
@@ -174,13 +198,17 @@ void MainWindow::on_loginButton_clicked()
                     ui->paymentsTableView->setModel(paymentModel);
                     // *********** PAYMENT ***********
 
-
-
-
-
                     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->administratorPage->size(), qApp->desktop()->availableGeometry()));
                 } else{
                     // TODO: create singletone service to store user data (balance & id)
+                    ui->userPage->setMinimumSize(895, 520);
+                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
+                    ui->stackedWidget->setCurrentIndex(3);
+                    ui->userPageStackedWidget->setCurrentIndex(0);
+                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+                    // check the user id
+                    qDebug()<< users::Id;
                 }
 
                 if (!query.first()){
@@ -466,7 +494,6 @@ void MainWindow::on_paymentCreateBtn_2_clicked()
 
     // values
     double cost = ui->paymentsCostEditField_2->text().toDouble();
-    qDebug()<< cost;
     int userId = ui->paymentsUserIdEditField_2->text().toInt();
     QString description = ui->paymentsDescriptionEditField_2->text();
     int categoryId = ui->paymentsCategoryIdEditField_2->text().toInt();
@@ -858,7 +885,7 @@ void MainWindow::on_usersTableView_doubleClicked(const QModelIndex &index)
     QModelIndex customIndex = ui->usersTableView->model()->index(index.row(), 0);
 
     int id = ui->usersTableView->model()->data(customIndex).toInt();
-    users::Id = id;
+    userId = id;
     query.prepare(QString("select * from BudgetingDatabase.dbo.Users users where users.Id = :value"));
     query.bindValue(":value", id);
     if(query.exec()){
@@ -881,11 +908,11 @@ void MainWindow::on_usersDeleteButton_clicked()
 {
     QMessageBox::StandardButton reply = QMessageBox::warning(this, "Delete warning", "Attention: Do you really want to delete this entity?",
                                        QMessageBox::Ok | QMessageBox::Cancel);
-
+    qDebug()<< "Check global user variable"<<userId;
     QSqlQuery query(QSqlDatabase::database());
     if (reply == QMessageBox::Ok){
         // delete row
-        int id = users::Id;
+        int id = userId;
         int manualId = ui->userDeleteIdEditField->text().toInt();
         query.prepare(QString("Delete from BudgetingDatabase.dbo.Users where Id = :value"));
         if (manualId != 0){
@@ -954,4 +981,83 @@ void MainWindow::on_usersCreateButton_clicked()
     } else {
         userModel->select();
     }
+}
+
+void MainWindow::on_stackedWidget_currentChanged(int arg1)
+{
+    qDebug()<< "Stacked widget current change event: " << arg1;
+    // find current index
+    // ui->TablesStackedWidget->currentIndex()
+    if (arg1 == 3){
+        // draw chart if stacked widget index is on user page.
+        QPieSeries *series = new QPieSeries();
+        series->append("Category1", .2);
+        series->append("Category2", .20);
+        series->append("Category3", .50);
+        series->append("Category4", .28);
+
+        QPieSlice *slice0 = series->slices().at(0);
+        slice0->setLabelVisible();
+
+        QPieSlice *slice1 = series->slices().at(1);
+        slice1->setExploded();
+        slice1->setLabelVisible();
+        slice1->setPen(QPen(Qt::darkCyan, 2));
+        slice1->setBrush(Qt::green);
+
+        QPieSlice *slice2 = series->slices().at(2);
+        slice2->setLabelVisible();
+
+        QPieSlice *slice3 = series->slices().at(3);
+        slice3->setLabelVisible();
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle("TestChart");
+
+        chart->legend()->hide();
+
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+
+        QMainWindow window;
+        ui->gridLayout_2->addWidget(chartView, 1, 2);
+    }
+
+}
+
+void MainWindow::on_personalStatisticButton_clicked()
+{
+   ui->userPageStackedWidget->setCurrentIndex(0);
+
+   // set button active
+   ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+   // others passive
+   ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+   ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+}
+
+void MainWindow::on_billingReportButton_clicked()
+{
+    ui->userPageStackedWidget->setCurrentIndex(1);
+
+    // set button active
+    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others passive
+    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+}
+
+void MainWindow::on_financialHelperButton_clicked()
+{
+    ui->userPageStackedWidget->setCurrentIndex(2);
+
+    // set button active
+    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+    // others passive
+    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
 }

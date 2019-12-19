@@ -86,6 +86,14 @@ private slots:
 
     void on_usersCreateButton_clicked();
 
+    void on_stackedWidget_currentChanged(int arg1);
+
+    void on_personalStatisticButton_clicked();
+
+    void on_billingReportButton_clicked();
+
+    void on_financialHelperButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

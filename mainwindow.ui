@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1122</width>
-    <height>871</height>
+    <width>880</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="font">
@@ -31,7 +31,7 @@
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -44,7 +44,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item row="0" column="0">
+    <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="minimumSize">
        <size>
@@ -56,7 +56,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -2197,7 +2197,7 @@ border-radius: 10px;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2639,6 +2639,144 @@ color: black;
         </widget>
        </widget>
       </widget>
+      <widget class="QWidget" name="userPage">
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>70</y>
+          <width>171</width>
+          <height>401</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="personalStatisticButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#personalStatisticButton{
+background-color: #F0F0F0;
+border-color: yellow;
+color: black;
+}
+
+#personalStatisticButton:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Personal statistic</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="billingReportButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#billingReportButton{
+background-color: #F0F0F0;
+border-color: yellow;
+color: black;
+}
+
+#billingReportButton:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Billing report</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="financialHelperButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#financialHelperButton{
+background-color: #F0F0F0;
+border-color: yellow;
+color: black;
+}
+
+#financialHelperButton:hover{
+background-color: white;
+color: black;
+}</string>
+           </property>
+           <property name="text">
+            <string>Financial helper</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QStackedWidget" name="userPageStackedWidget">
+        <property name="geometry">
+         <rect>
+          <x>239</x>
+          <y>69</y>
+          <width>611</width>
+          <height>401</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="chartPage">
+         <widget class="QWidget" name="gridLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>611</width>
+            <height>401</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2"/>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="billingReportPage"/>
+        <widget class="QWidget" name="financialHelperPage"/>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -2648,7 +2786,7 @@ color: black;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1122</width>
+     <width>880</width>
      <height>20</height>
     </rect>
    </property>
@@ -3099,8 +3237,9 @@ color: black;
    </property>
    <widget class="QMenu" name="menuMain_menu">
     <property name="title">
-     <string>Main menu</string>
+     <string>Options</string>
     </property>
+    <addaction name="actionLog_out"/>
    </widget>
    <addaction name="menuMain_menu"/>
   </widget>
@@ -3115,6 +3254,17 @@ color: black;
     <bool>true</bool>
    </property>
   </widget>
+  <action name="actionLog_out">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Log out</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
