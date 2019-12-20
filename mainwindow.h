@@ -94,6 +94,8 @@ private slots:
 
     void on_financialHelperButton_clicked();
 
+    void on_actionLog_out_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

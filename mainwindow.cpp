@@ -1061,3 +1061,17 @@ void MainWindow::on_financialHelperButton_clicked()
     ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
     ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
 }
+
+void MainWindow::on_actionLog_out_triggered()
+{
+    // we logged out the user
+    if (users::Id != 0){
+        users::Id = 0;
+        ui->stackedWidget->setCurrentIndex(0);
+        // ui->authorizationPage->setMaximumSize(416, 387);
+        resize(416, 387);
+        adjustSize();
+    } else{
+        QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
+    }
+}
