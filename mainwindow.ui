@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
-    <height>473</height>
+    <width>915</width>
+    <height>774</height>
    </rect>
   </property>
   <property name="font">
@@ -56,7 +56,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -826,7 +826,7 @@ color: black;
          </rect>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="categoriesPage">
          <widget class="QTableView" name="categoriesTableView">
@@ -1248,7 +1248,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1872,7 +1872,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1971,7 +1971,7 @@ border-radius: 10px;
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>170</number>
+                <number>160</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersCategoriesCreateButton">
@@ -2027,44 +2027,18 @@ color: black;
              <property name="verticalSpacing">
               <number>10</number>
              </property>
-             <item row="2" column="0" colspan="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <property name="spacing">
-                <number>1</number>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_27">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
-               <property name="topMargin">
-                <number>170</number>
+               <property name="text">
+                <string>UserId</string>
                </property>
-               <item>
-                <widget class="QPushButton" name="usersCategoriesDeleteButton">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                   <pointsize>14</pointsize>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#usersCategoriesDeleteButton{
-background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
-border-width: 1px;
-border-color:	#E87F6F;
-*/
-}
-
-#usersCategoriesDeleteButton:hover{
-background-color: white;
-color: black;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Delete User Category</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              </widget>
              </item>
              <item row="0" column="1">
               <widget class="QLineEdit" name="usersCategoriesUserIdDeleteEditField">
@@ -2081,19 +2055,6 @@ border-style: outset;
 border-width: 1px;
 border-radius: 10px;
 }</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_27">
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>UserId</string>
                </property>
               </widget>
              </item>
@@ -2127,6 +2088,45 @@ border-radius: 10px;
 }</string>
                </property>
               </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>160</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="usersCategoriesDeleteButton">
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">#usersCategoriesDeleteButton{
+background-color: #F0F0F0;
+/* color: green; */
+color: black;
+/* border-style: double;
+border-width: 1px;
+border-color:	#E87F6F;
+*/
+}
+
+#usersCategoriesDeleteButton:hover{
+background-color: white;
+color: black;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Delete User Category</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -2197,7 +2197,7 @@ border-radius: 10px;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2327,7 +2327,7 @@ border-radius: 10px;
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>135</number>
+                <number>125</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersCreateButton">
@@ -2490,7 +2490,7 @@ border-radius: 10px;
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>100</number>
+                <number>90</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersUpdateButton">
@@ -2603,7 +2603,7 @@ border-radius: 10px;
             <property name="geometry">
              <rect>
               <x>20</x>
-              <y>260</y>
+              <y>250</y>
               <width>577</width>
               <height>33</height>
              </rect>
@@ -2751,29 +2751,89 @@ color: black;
        <widget class="QStackedWidget" name="userPageStackedWidget">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>30</y>
-          <width>611</width>
-          <height>401</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="chartPage"/>
-        <widget class="QWidget" name="billingReportPage"/>
-        <widget class="QWidget" name="financialHelperPage"/>
-       </widget>
-       <widget class="QWidget" name="gridLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
+          <x>240</x>
           <y>20</y>
           <width>611</width>
           <height>401</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2"/>
+        <property name="currentIndex">
+         <number>2</number>
+        </property>
+        <widget class="QWidget" name="chartPage">
+         <widget class="QWidget" name="gridLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>19</y>
+            <width>601</width>
+            <height>321</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout"/>
+         </widget>
+         <widget class="QLabel" name="label_15">
+          <property name="geometry">
+           <rect>
+            <x>170</x>
+            <y>360</y>
+            <width>141</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Current balance</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber">
+          <property name="geometry">
+           <rect>
+            <x>310</x>
+            <y>360</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#lcdNumber{
+	color: black;
+
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>true</bool>
+          </property>
+          <property name="value" stdset="0">
+           <double>50.000000000000000</double>
+          </property>
+          <property name="intValue" stdset="0">
+           <number>50</number>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="billingReportPage"/>
+        <widget class="QWidget" name="financialHelperPage"/>
        </widget>
       </widget>
      </widget>
@@ -2785,7 +2845,7 @@ color: black;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>836</width>
+     <width>915</width>
      <height>20</height>
     </rect>
    </property>
@@ -3262,6 +3322,11 @@ color: black;
    </property>
    <property name="text">
     <string>Log out</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

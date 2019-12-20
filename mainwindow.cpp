@@ -131,7 +131,7 @@ void MainWindow::on_loginButton_clicked()
                     resize(843, 502);
                     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
                     ui->userPageStackedWidget->setCurrentIndex(0);
-                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
                     // check the user id
                     qDebug()<< users::Id;
@@ -163,7 +163,7 @@ void MainWindow::on_loginButton_clicked()
 
                     // set categories button active by default
                     ui->categoriesOpenTableBtn->
-                                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
                     ui->TablesStackedWidget->setCurrentIndex(0);
 
@@ -590,7 +590,7 @@ void MainWindow::on_categoriesOpenTableBtn_clicked()
     // reserve color is #A1ACB3
     // set categories button with active color
     ui->categoriesOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
@@ -608,7 +608,7 @@ void MainWindow::on_paymentsOpenTableBtn_clicked()
     // reserve color is #A1ACB3
     // set categories button with active color
     ui->paymentsOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
@@ -723,7 +723,7 @@ void MainWindow::on_usersCategoriesOpenTableBtn_clicked()
 
     // set users categories button with active color
     ui->usersCategoriesOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
@@ -739,7 +739,7 @@ void MainWindow::on_usersOpenTableBtn_clicked()
     ui->TablesStackedWidget->setCurrentIndex(3);
     // set users categories button with active color
     ui->usersOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others to passive
     ui->usersCategoriesOpenTableBtn->
@@ -1021,7 +1021,7 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
         chartView->setRenderHint(QPainter::Antialiasing);
 
         QMainWindow window;
-        ui->gridLayout_2->addWidget(chartView, 1, 2);
+        ui->gridLayout->addWidget(chartView, 1, 2);
     }
 
 }
@@ -1031,7 +1031,7 @@ void MainWindow::on_personalStatisticButton_clicked()
    ui->userPageStackedWidget->setCurrentIndex(0);
 
    // set button active
-   ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+   ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
    // others passive
    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
@@ -1043,7 +1043,7 @@ void MainWindow::on_billingReportButton_clicked()
     ui->userPageStackedWidget->setCurrentIndex(1);
 
     // set button active
-    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others passive
     ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
@@ -1055,7 +1055,7 @@ void MainWindow::on_financialHelperButton_clicked()
     ui->userPageStackedWidget->setCurrentIndex(2);
 
     // set button active
-    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
 
     // others passive
     ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
