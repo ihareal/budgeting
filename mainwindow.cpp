@@ -22,11 +22,60 @@
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <QPen>
+#include <QtGui>
 
 QT_CHARTS_USE_NAMESPACE
 
 // initialize user Id variable to delete user
 int userId;
+
+// function to check duplicates before adding new category
+// true - such category exists
+// false - you can insert new one
+bool MainWindow::checkDuplicatedCategories(QString category){
+
+    QSqlQuery query(QSqlDatabase::database());
+
+    // query
+    query.prepare("select * from BudgetingDatabase.dbo.Categories categories where categories.Category = :category");
+    query.bindValue(":category", category);
+
+    if(query.exec()){
+       if (query.first()){
+           return true;
+       } else{
+           return false;
+       }
+    } else{
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    }
+
+}
+
+// function to check duplicates before adding new user category
+// true - such category exists
+// false - you can insert new one
+bool MainWindow::checkDuplicatedUsersCategories(int categoryId, int userId){
+
+   QSqlQuery query(QSqlDatabase::database());
+
+   // query
+   query.prepare("select * from BudgetingDatabase.dbo.UsersCategories ucat where ucat.CategoryId = :categoryId and ucat.UserId = :userId");
+   query.bindValue(":categoryId", categoryId);
+   query.bindValue(":userId", userId);
+
+   if (query.exec()){
+        if(query.first()){
+            return true;
+        } else {
+            return false;
+        }
+   } else {
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+   }
+}
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -35,6 +84,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // set authorization widget as default
     ui->stackedWidget->setCurrentIndex(0);
+
+    // setup date by default
+    QDateTime setPaymentDateTime = QDateTime::currentDateTimeUtc();
+    ui->paymentsCreateDateEdit->setDateTime(setPaymentDateTime);
+    ui->paymentsUpdateDateEditField->setDateTime(setPaymentDateTime);
 
     // Some design features
     ui->createNewAccountPage->adjustSize();
@@ -411,7 +465,7 @@ void MainWindow::on_paymentsTableView_activated(const QModelIndex &index)
             ui->paymentsUserIdEditField->setText(query.value(2).toString());
             ui->paymentsDescriptionEditField->setText(query.value(3).toString());
             ui->paymentsCategoryIdEditField->setText(query.value(4).toString());
-            ui->paymentsDateEditField->setDate(query.value(5).toDate());
+            ui->paymentsUpdateDateEditField->setDate(query.value(5).toDate());
 
             // fill create edit fields
 //            ui->paymentsCostEditField_2->setText(query.value(1).toString());
@@ -497,7 +551,7 @@ void MainWindow::on_paymentCreateBtn_2_clicked()
     int userId = ui->paymentsUserIdEditField_2->text().toInt();
     QString description = ui->paymentsDescriptionEditField_2->text();
     int categoryId = ui->paymentsCategoryIdEditField_2->text().toInt();
-    QString date = ui->paymentsDateEditField_2->text();
+    QDateTime date = ui->paymentsCreateDateEdit->dateTime();
 
     // bind values
     query.bindValue(":cost", cost);
@@ -534,7 +588,7 @@ void MainWindow::on_paymentsTableView_doubleClicked(const QModelIndex &index)
             ui->paymentsUserIdEditField->setText(query.value(2).toString());
             ui->paymentsDescriptionEditField->setText(query.value(3).toString());
             ui->paymentsCategoryIdEditField->setText(query.value(4).toString());
-            ui->paymentsDateEditField->setDate(query.value(5).toDate());
+            ui->paymentsUpdateDateEditField->setDate(query.value(5).toDate());
 
             // fill create edit fields
 //            ui->paymentsCostEditField_2->setText(query.value(1).toString());
@@ -565,7 +619,7 @@ void MainWindow::on_paymentUpdateButton_clicked()
     int userId = ui->paymentsUserIdEditField->text().toInt();
     int categoryId = ui->paymentsCategoryIdEditField->text().toInt();
     QString description = ui->paymentsDescriptionEditField->text();
-    QString date = ui->paymentsDateEditField->text();
+    QDateTime date = ui->paymentsUpdateDateEditField->dateTime();
 
     // bind values
     query.bindValue(":cost", cost);
@@ -650,20 +704,26 @@ void MainWindow::on_categoriesTableView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_categoriesCreateButton_clicked()
 {
-    QSqlQuery query(QSqlDatabase::database());
-
-    // query
-    query.prepare("INSERT INTO BudgetingDatabase.dbo.Categories (Category) VALUES (:category)");
 
     // values
-    QString category = ui->createCategoriesCostEditField->text();
-    query.bindValue(":category", category);
+    QString category = ui->createCategoriesCostEditField->text();    
 
-    if(!query.exec()){
-        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    // if there is no such category (equals false result) we have opportunity to insert
+    if(checkDuplicatedCategories(category) == false){
+        // query
+        QSqlQuery query(QSqlDatabase::database());
+        query.prepare("INSERT INTO BudgetingDatabase.dbo.Categories (Category) VALUES (:category)");
+        query.bindValue(":category", category);
+
+        if(!query.exec()){
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        } else {
+            categoriesModel->select();
+        }
     } else {
-        categoriesModel->select();
+        QMessageBox::warning(this, "Database failed", "Error: Such category already exists.");
     }
+
 }
 
 void MainWindow::on_categoriesDeleteButton_clicked()
@@ -752,22 +812,26 @@ void MainWindow::on_usersOpenTableBtn_clicked()
 
 void MainWindow::on_usersCategoriesCreateButton_clicked()
 {
-    QSqlQuery query(QSqlDatabase::database());
 
-    // query
-    query.prepare("INSERT INTO BudgetingDatabase.dbo.UsersCategories (UserId, CategoryId) VALUES (:userId, :categoryId)");
-
-    // values
     int categoryId = ui->usersCategoriesCategoryIdCreateEditField->text().toInt();
     int userId = ui->usersCategoriesUserIdCreateEditField->text().toInt();
-    query.bindValue(":categoryId", categoryId);
-    query.bindValue(":userId", userId);
+    if (checkDuplicatedUsersCategories(categoryId, userId) == false){
+        QSqlQuery query(QSqlDatabase::database());
+        // query
+        query.prepare("INSERT INTO BudgetingDatabase.dbo.UsersCategories (UserId, CategoryId) VALUES (:userId, :categoryId)");
 
-    if(!query.exec()){
-        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        // bind values
+        query.bindValue(":categoryId", categoryId);
+        query.bindValue(":userId", userId);
+        if(!query.exec()){
+            QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+        } else {
+            userCategoriesModel->select();
+        }
     } else {
-        userCategoriesModel->select();
+        QMessageBox::warning(this, "Database failed", "Error: Such user category already exists.");
     }
+
 }
 
 void MainWindow::on_usersCategoriesTableView_doubleClicked(const QModelIndex &index)
@@ -844,35 +908,6 @@ void MainWindow::on_usersCategoriesTableView_2_doubleClicked(const QModelIndex &
         }
     } else {
         QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
-    }
-}
-
-void MainWindow::on_usersCategoriesDeleteButton_4_clicked()
-{
-    QSqlQuery query(QSqlDatabase::database());
-
-    // query
-    query.prepare("INSERT INTO BudgetingDatabase.dbo.Payments (Cost, UserId, Description, CategoryId, Date) VALUES (:cost, :userId, :description, :categoryId, :date)");
-
-    // values
-    double cost = ui->paymentsCostEditField_2->text().toDouble();
-    qDebug()<< cost;
-    int userId = ui->paymentsUserIdEditField_2->text().toInt();
-    QString description = ui->paymentsDescriptionEditField_2->text();
-    int categoryId = ui->paymentsCategoryIdEditField_2->text().toInt();
-    QString date = ui->paymentsDateEditField_2->text();
-
-    // bind values
-    query.bindValue(":cost", cost);
-    query.bindValue(":userId", userId);
-    query.bindValue(":description", description);
-    query.bindValue(":categoryId", categoryId);
-    query.bindValue(":date", date);
-
-    if(!query.exec()){
-        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
-    } else {
-        userModel->select();
     }
 }
 
@@ -989,6 +1024,7 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     // find current index
     // ui->TablesStackedWidget->currentIndex()
     if (arg1 == 3){
+
         // draw chart if stacked widget index is on user page.
         QPieSeries *series = new QPieSeries();
         series->append("Category1", .2);
@@ -1077,3 +1113,4 @@ void MainWindow::on_actionLog_out_triggered()
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
     }
 }
+

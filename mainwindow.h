@@ -21,6 +21,12 @@ public:
 
     QMessageBox *messageBox;
 
+    bool checkDuplicatedUsersCategories(int categoryId, int userId);
+
+    bool checkDuplicatedCategories(QString str);
+
+    // bool checkDuplicatedUsersCategories(int categoryId, int userId);
+
 private slots:
 
     void on_loginButton_clicked();
@@ -75,8 +81,6 @@ private slots:
     void on_usersCategoriesDeleteButton_clicked();
 
     void on_usersCategoriesTableView_2_doubleClicked(const QModelIndex &index);
-
-    void on_usersCategoriesDeleteButton_4_clicked();
 
     void on_usersTableView_doubleClicked(const QModelIndex &index);
 

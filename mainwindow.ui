@@ -882,7 +882,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1239,7 +1239,12 @@ color: black;
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">#dateTimeEdit_2{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
           </property>
           <property name="tabPosition">
            <enum>QTabWidget::North</enum>
@@ -1248,7 +1253,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1320,24 +1325,6 @@ border-radius: 10px;
                </property>
                <property name="text">
                 <string>Date</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDateEdit" name="paymentsDateEditField_2">
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">#paymentsDateEditField_2{
-background-color: white; 
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-}</string>
                </property>
               </widget>
              </item>
@@ -1473,6 +1460,24 @@ color: black;
                </item>
               </layout>
              </item>
+             <item row="1" column="1">
+              <widget class="QDateTimeEdit" name="paymentsCreateDateEdit">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#paymentsCreateDateEdit{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </widget>
@@ -1577,24 +1582,6 @@ border-radius: 10px;
                </property>
                <property name="text">
                 <string>Date</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDateEdit" name="paymentsDateEditField">
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                 <pointsize>12</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">#paymentsDateEditField{
-background-color: white; 
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-}</string>
                </property>
               </widget>
              </item>
@@ -1729,6 +1716,24 @@ color: black;
                 </widget>
                </item>
               </layout>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDateTimeEdit" name="paymentsUpdateDateEditField">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#paymentsUpdateDateEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
