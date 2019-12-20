@@ -127,6 +127,15 @@ void MainWindow::on_loginButton_clicked()
                  } else{
                     // setup user Id
                     users::Id = query.value(0).toInt();
+                    // TODO: create singletone service to store user data (balance & id)
+                    ui->userPage->setMinimumSize(895, 520);
+                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
+                    ui->stackedWidget->setCurrentIndex(3);
+                    ui->userPageStackedWidget->setCurrentIndex(0);
+                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
+
+                    // check the user id
+                    qDebug()<< users::Id;
                 }
 
               }
@@ -199,16 +208,6 @@ void MainWindow::on_loginButton_clicked()
                     // *********** PAYMENT ***********
 
                     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->administratorPage->size(), qApp->desktop()->availableGeometry()));
-                } else{
-                    // TODO: create singletone service to store user data (balance & id)
-                    ui->userPage->setMinimumSize(895, 520);
-                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
-                    ui->stackedWidget->setCurrentIndex(3);
-                    ui->userPageStackedWidget->setCurrentIndex(0);
-                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
-
-                    // check the user id
-                    qDebug()<< users::Id;
                 }
 
                 if (!query.first()){
