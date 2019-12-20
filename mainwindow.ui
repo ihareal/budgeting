@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>726</height>
+    <width>836</width>
+    <height>473</height>
    </rect>
   </property>
   <property name="font">
@@ -56,7 +56,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="sizePolicy">
@@ -2643,8 +2643,8 @@ color: black;
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>70</y>
+          <x>20</x>
+          <y>20</y>
           <width>171</width>
           <height>401</height>
          </rect>
@@ -2751,8 +2751,8 @@ color: black;
        <widget class="QStackedWidget" name="userPageStackedWidget">
         <property name="geometry">
          <rect>
-          <x>239</x>
-          <y>69</y>
+          <x>230</x>
+          <y>30</y>
           <width>611</width>
           <height>401</height>
          </rect>
@@ -2760,21 +2760,20 @@ color: black;
         <property name="currentIndex">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="chartPage">
-         <widget class="QWidget" name="gridLayoutWidget">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>611</width>
-            <height>401</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_2"/>
-         </widget>
-        </widget>
+        <widget class="QWidget" name="chartPage"/>
         <widget class="QWidget" name="billingReportPage"/>
         <widget class="QWidget" name="financialHelperPage"/>
+       </widget>
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>20</y>
+          <width>611</width>
+          <height>401</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2"/>
        </widget>
       </widget>
      </widget>
@@ -2786,7 +2785,7 @@ color: black;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>880</width>
+     <width>836</width>
      <height>20</height>
     </rect>
    </property>

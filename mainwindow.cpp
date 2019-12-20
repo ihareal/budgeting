@@ -127,10 +127,9 @@ void MainWindow::on_loginButton_clicked()
                  } else{
                     // setup user Id
                     users::Id = query.value(0).toInt();
-                    // TODO: create singletone service to store user data (balance & id)
-                    ui->userPage->setMinimumSize(895, 520);
-                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
                     ui->stackedWidget->setCurrentIndex(3);
+                    resize(843, 502);
+                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
                     ui->userPageStackedWidget->setCurrentIndex(0);
                     ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #808080; color: white; }");
 
@@ -144,12 +143,14 @@ void MainWindow::on_loginButton_clicked()
                 if (isAdmin == true){
                     ui->stackedWidget->setCurrentIndex(2);
 
-                    ui->administratorPage->setMinimumSize(851, 671);
-                    ui->administratorPage->setMaximumSize(851, 671);
+                    // ui->administratorPage->setMinimumSize(851, 671);
+                    // ui->administratorPage->setMaximumSize(851, 671);
 
-                    ui->administratorPage->setSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-                    ui->administratorPage->adjustSize();
-                    adjustSize();
+                    // ui->administratorPage->setSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+                    // ui->administratorPage->adjustSize();
+                    // adjustSize();
+
+                    resize(862, 750);
 
                     // initialization payment table with QSqlQuery method
                     // QSqlQueryModel *paymentModel = new QSqlQueryModel();
@@ -1067,8 +1068,10 @@ void MainWindow::on_actionLog_out_triggered()
     if (users::Id != 0){
         users::Id = 0;
         ui->stackedWidget->setCurrentIndex(0);
-        // ui->authorizationPage->setMaximumSize(416, 387);
+        ui->loginEditField->clear();
+        ui->passwordEditField->clear();
         resize(416, 387);
+        this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->authorizationPage->size(), qApp->desktop()->availableGeometry()));
         adjustSize();
     } else{
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
