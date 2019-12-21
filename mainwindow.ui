@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>915</width>
-    <height>774</height>
+    <width>944</width>
+    <height>734</height>
    </rect>
   </property>
   <property name="font">
@@ -46,6 +49,9 @@
     </property>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -56,9 +62,12 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -153,7 +162,7 @@ border-radius: 10px;
         <item row="2" column="0">
          <widget class="QLabel" name="notificationLabel">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="font">
            <font>
@@ -198,6 +207,9 @@ border-radius: 10px;
         </item>
         <item row="8" column="0" colspan="2">
          <widget class="QPushButton" name="loginButton">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="palette">
            <palette>
             <active>
@@ -403,6 +415,9 @@ border-radius: 10px;
             <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
@@ -439,6 +454,9 @@ OpacityAnimator on opacity{
             <family>Segoe UI</family>
             <pointsize>14</pointsize>
            </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="focusPolicy">
            <enum>Qt::ClickFocus</enum>
@@ -531,6 +549,9 @@ color: black;
             <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="focusPolicy">
            <enum>Qt::ClickFocus</enum>
           </property>
@@ -562,6 +583,12 @@ color: black;
             <family>Segoe UI</family>
             <pointsize>14</pointsize>
            </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">#goBackToLoginButton {
@@ -676,16 +703,25 @@ border-radius: 10px;
          <rect>
           <x>20</x>
           <y>20</y>
-          <width>181</width>
+          <width>171</width>
           <height>651</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="navigationPanel">
          <property name="spacing">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="leftMargin">
+          <number>5</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>5</number>
          </property>
          <item>
           <widget class="QPushButton" name="categoriesOpenTableBtn">
@@ -707,7 +743,10 @@ border-radius: 10px;
            <property name="styleSheet">
             <string notr="true">#categoriesOpenTableBtn{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -738,7 +777,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#paymentsOpenTableBtn{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -769,7 +811,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#usersCategoriesOpenTableBtn{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -800,7 +845,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#usersOpenTableBtn{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -817,19 +865,25 @@ color: black;
         </layout>
        </widget>
        <widget class="QStackedWidget" name="TablesStackedWidget">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>200</x>
           <y>20</y>
-          <width>681</width>
+          <width>671</width>
           <height>671</height>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="categoriesPage">
          <widget class="QTableView" name="categoriesTableView">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -860,6 +914,9 @@ color: black;
             <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::NoContextMenu</enum>
           </property>
@@ -882,7 +939,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="iconSize">
            <size>
@@ -960,15 +1017,17 @@ border-radius: 10px;
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#categoriesCreateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #categoriesCreateButton:hover{
@@ -1093,15 +1152,17 @@ border-radius: 10px;
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#categoriesUpdateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #categoriesUpdateButton:hover{
@@ -1172,7 +1233,7 @@ border-radius: 10px;
               <x>20</x>
               <y>250</y>
               <width>577</width>
-              <height>33</height>
+              <height>27</height>
              </rect>
             </property>
             <property name="font">
@@ -1181,20 +1242,22 @@ border-radius: 10px;
               <pointsize>14</pointsize>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">#categoriesDeleteButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #categoriesDeleteButton:hover{
-background-color: white;
-color: black;
+background-color: #A1ACB3;
+color: white;
 }</string>
             </property>
             <property name="text">
@@ -1253,7 +1316,7 @@ border-radius: 10px;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1437,15 +1500,13 @@ border-radius: 10px;
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#paymentCreateBtn_2{
 background-color: #F0F0F0;
-/* color: green; */
 color: black;
-/* border-style: double;
-border-width: 1px;
-border-color:	#E87F6F;
-*/
 }
 
 #paymentCreateBtn:hover{
@@ -1694,6 +1755,9 @@ border-radius: 10px;
                    <pointsize>14</pointsize>
                   </font>
                  </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#paymentUpdateButton{
 background-color: #F0F0F0;
@@ -1800,6 +1864,9 @@ border-radius: 10px;
               <pointsize>14</pointsize>
              </font>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">#DeletePaymentButton{
 background-color: #F0F0F0;
@@ -1877,7 +1944,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2119,6 +2186,7 @@ color: black;
 border-width: 1px;
 border-color:	#E87F6F;
 */
+
 }
 
 #usersCategoriesDeleteButton:hover{
@@ -2656,7 +2724,13 @@ color: black;
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>10</number>
+         </property>
+         <property name="leftMargin">
+          <number>5</number>
+         </property>
+         <property name="rightMargin">
+          <number>5</number>
          </property>
          <item>
           <widget class="QPushButton" name="personalStatisticButton">
@@ -2675,7 +2749,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#personalStatisticButton{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -2706,7 +2783,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#billingReportButton{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -2737,7 +2817,10 @@ color: black;
            <property name="styleSheet">
             <string notr="true">#financialHelperButton{
 background-color: #F0F0F0;
-border-color: yellow;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
 color: black;
 }
 
@@ -2763,16 +2846,16 @@ color: black;
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="chartPage">
          <widget class="QWidget" name="gridLayoutWidget">
           <property name="geometry">
            <rect>
             <x>9</x>
-            <y>19</y>
+            <y>-1</y>
             <width>601</width>
-            <height>321</height>
+            <height>351</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout"/>
@@ -2780,8 +2863,8 @@ color: black;
          <widget class="QLabel" name="label_15">
           <property name="geometry">
            <rect>
-            <x>170</x>
-            <y>360</y>
+            <x>150</x>
+            <y>380</y>
             <width>141</width>
             <height>21</height>
            </rect>
@@ -2793,16 +2876,16 @@ color: black;
            </font>
           </property>
           <property name="text">
-           <string>Current balance</string>
+           <string>Current balance:</string>
           </property>
          </widget>
-         <widget class="QLCDNumber" name="lcdNumber">
+         <widget class="QLabel" name="userBalanceLabel">
           <property name="geometry">
            <rect>
-            <x>310</x>
-            <y>360</y>
-            <width>64</width>
-            <height>23</height>
+            <x>300</x>
+            <y>380</y>
+            <width>81</width>
+            <height>20</height>
            </rect>
           </property>
           <property name="font">
@@ -2811,34 +2894,89 @@ color: black;
             <pointsize>14</pointsize>
            </font>
           </property>
-          <property name="styleSheet">
-           <string notr="true">#lcdNumber{
-	color: black;
-
-}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <property name="lineWidth">
-           <number>1</number>
-          </property>
-          <property name="smallDecimalPoint">
-           <bool>true</bool>
-          </property>
-          <property name="value" stdset="0">
-           <double>50.000000000000000</double>
-          </property>
-          <property name="intValue" stdset="0">
-           <number>50</number>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </widget>
         <widget class="QWidget" name="billingReportPage"/>
         <widget class="QWidget" name="financialHelperPage"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="adminSelectionPage">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <widget class="QPushButton" name="openClientBtn">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>400</width>
+          <height>400</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI Semibold</family>
+          <pointsize>26</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">#openClientBtn{
+background-color: #9FB9CC;
+border-color: yellow;
+border-radius: 20px;
+color: #3D6480;
+}
+
+#openClientBtn:hover{
+background-color: #6A9DBA;
+color: #3D6480;
+}</string>
+        </property>
+        <property name="text">
+         <string>Client</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="openAdministratorBtn">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>20</y>
+          <width>400</width>
+          <height>400</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI Semibold</family>
+          <pointsize>26</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">#openAdministratorBtn{
+background-color: #E88887;
+border-color: yellow;
+border-radius: 20px;
+color: #FFE1E0;
+}
+
+#openAdministratorBtn:hover{
+background-color: #CC7876;
+color: #FFE1E0;
+}</string>
+        </property>
+        <property name="text">
+         <string>Administrator</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -2850,8 +2988,8 @@ color: black;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>915</width>
-     <height>20</height>
+     <width>944</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="palette">

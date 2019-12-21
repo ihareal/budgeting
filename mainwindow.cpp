@@ -49,7 +49,6 @@ bool MainWindow::checkDuplicatedCategories(QString category){
     } else{
         QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
     }
-
 }
 
 // function to check duplicates before adding new user category
@@ -99,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->createPasswordEditField->setEchoMode(QLineEdit::Password);
     messageBox = new QMessageBox();
     db = QSqlDatabase::addDatabase("QODBC");
+
 
     // db.setDatabaseName("DRIVER={SQL Server};SERVER=AMD_A10-7850K\\SQLEXPRESS;DATABASE=BudgetingDatabase;Trusted_Connection=true");
 
@@ -178,15 +178,38 @@ void MainWindow::on_loginButton_clicked()
 
                     // special admin id
                     users::Id = 999;
-                 } else{
+                 } else {
                     // setup user Id
+                    QString userBalance = query.value(3).toString();
+                    ui->userBalanceLabel->setText(userBalance);
                     users::Id = query.value(0).toInt();
                     ui->stackedWidget->setCurrentIndex(3);
-                    resize(843, 502);
+                    resize(871, 502);
                     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
                     ui->userPageStackedWidget->setCurrentIndex(0);
-                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+                    // set first button to active
+                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");
 
+                    // others passive
+                    ui->billingReportButton->
+                            setStyleSheet("QPushButton{ "
+                                          "background-color: #F0F0F0;"
+                                          "border-style: outset;"
+                                          "border-width: 1px;"
+                                          "border-color: black;"
+                                          "border-radius: 20px;"
+                                          "color: black; }"
+                                          "QPushButton:hover { background-color: white;}");
+
+                    ui->financialHelperButton->
+                            setStyleSheet("QPushButton{ "
+                                          "background-color: #F0F0F0;"
+                                          "border-style: outset;"
+                                          "border-width: 1px;"
+                                          "border-color: black;"
+                                          "border-radius: 20px;"
+                                          "color: black; }"
+                                          "QPushButton:hover { background-color: white;}");
                     // check the user id
                     qDebug()<< users::Id;
                 }
@@ -195,6 +218,7 @@ void MainWindow::on_loginButton_clicked()
             }
             try {
                 if (isAdmin == true){
+
                     ui->stackedWidget->setCurrentIndex(2);
 
                     // ui->administratorPage->setMinimumSize(851, 671);
@@ -204,7 +228,7 @@ void MainWindow::on_loginButton_clicked()
                     // ui->administratorPage->adjustSize();
                     // adjustSize();
 
-                    resize(862, 750);
+                    resize(872, 752);
 
                     // initialization payment table with QSqlQuery method
                     // QSqlQueryModel *paymentModel = new QSqlQueryModel();
@@ -217,10 +241,40 @@ void MainWindow::on_loginButton_clicked()
 
                     // set categories button active by default
                     ui->categoriesOpenTableBtn->
-                                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+                                setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");
+
+                    // others to passive
+                    ui->usersOpenTableBtn->
+                            setStyleSheet("QPushButton{ "
+                                          "background-color: #F0F0F0;"
+                                          "border-style: outset;"
+                                          "border-width: 1px;"
+                                          "border-color: black;"
+                                          "border-radius: 20px;"
+                                          "color: black; }"
+                                          "QPushButton:hover { background-color: white; }");
+
+                    ui->paymentsOpenTableBtn->
+                            setStyleSheet("QPushButton{ "
+                                          "background-color: #F0F0F0;"
+                                          "border-style: outset;"
+                                          "border-width: 1px;"
+                                          "border-color: black;"
+                                          "border-radius: 20px;"
+                                          "color: black; }"
+                                          "QPushButton:hover { background-color: white; }");
+
+                    ui->usersCategoriesOpenTableBtn->
+                            setStyleSheet("QPushButton{ "
+                                          "background-color: #F0F0F0;"
+                                          "border-style: outset;"
+                                          "border-width: 1px;"
+                                          "border-color: black;"
+                                          "border-radius: 20px;"
+                                          "color: black; }"
+                                          "QPushButton:hover { background-color: white; }");
 
                     ui->TablesStackedWidget->setCurrentIndex(0);
-
                     // *********** CATEGORIES ***********
                     // categories model
                     categoriesModel = new QSqlTableModel();
@@ -644,15 +698,41 @@ void MainWindow::on_categoriesOpenTableBtn_clicked()
     // reserve color is #A1ACB3
     // set categories button with active color
     ui->categoriesOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+            setStyleSheet("QPushButton{ background-color: black;"
+                          "border-style: outset; border-width: 1px;"
+                          "border-color:  black; border-radius: 20px;"
+                          "color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
-            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->paymentsOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->usersCategoriesOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->paymentsOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->usersCategoriesOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_paymentsOpenTableBtn_clicked()
@@ -662,15 +742,41 @@ void MainWindow::on_paymentsOpenTableBtn_clicked()
     // reserve color is #A1ACB3
     // set categories button with active color
     ui->paymentsOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+                setStyleSheet("QPushButton{ background-color: black;"
+                              "border-style: outset; border-width: 1px;"
+                              "border-color:  black; border-radius: 20px;"
+                              "color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
-            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
     ui->categoriesOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            ->setStyleSheet("QPushButton{ "
+                            "background-color: #F0F0F0;"
+                            "border-style: outset;"
+                            "border-width: 1px;"
+                            "border-color: black;"
+                            "border-radius: 20px;"
+                            "color: black; }"
+                            "QPushButton:hover { background-color: white; }");
+
     ui->usersCategoriesOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            ->setStyleSheet("QPushButton{ "
+                            "background-color: #F0F0F0;"
+                            "border-style: outset;"
+                            "border-width: 1px;"
+                            "border-color: black;"
+                            "border-radius: 20px;"
+                            "color: black; }"
+                            "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_categoriesTableView_doubleClicked(const QModelIndex &index)
@@ -783,15 +889,44 @@ void MainWindow::on_usersCategoriesOpenTableBtn_clicked()
 
     // set users categories button with active color
     ui->usersCategoriesOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+                setStyleSheet("QPushButton{ "
+                              "background-color: black;"
+                              "border-style: outset;"
+                              "border-width: 1px;"
+                              "border-color: black;"
+                              "border-radius: 20px;"
+                              "color: white; }");
 
     // others to passive
     ui->usersOpenTableBtn->
-            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->categoriesOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->paymentsOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->categoriesOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->paymentsOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_usersOpenTableBtn_clicked()
@@ -799,15 +934,44 @@ void MainWindow::on_usersOpenTableBtn_clicked()
     ui->TablesStackedWidget->setCurrentIndex(3);
     // set users categories button with active color
     ui->usersOpenTableBtn->
-                setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+            setStyleSheet("QPushButton{ "
+                          "background-color: black;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: white; }");
 
     // others to passive
     ui->usersCategoriesOpenTableBtn->
-            setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->categoriesOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
-    ui->paymentsOpenTableBtn
-            ->setStyleSheet("QPushButton{background-color: #F0F0F0; color: black}");
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->categoriesOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->paymentsOpenTableBtn->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_usersCategoriesCreateButton_clicked()
@@ -1067,11 +1231,34 @@ void MainWindow::on_personalStatisticButton_clicked()
    ui->userPageStackedWidget->setCurrentIndex(0);
 
    // set button active
-   ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
-
+   ui->personalStatisticButton->
+           setStyleSheet("QPushButton{ "
+                         "background-color: black;"
+                         "border-style: outset;"
+                         "border-width: 1px;"
+                         "border-color: black;"
+                         "border-radius: 20px;"
+                         "color: white; }");
    // others passive
-   ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
-   ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+   ui->billingReportButton->
+           setStyleSheet("QPushButton{ "
+                         "background-color: #F0F0F0;"
+                         "border-style: outset;"
+                         "border-width: 1px;"
+                         "border-color: black;"
+                         "border-radius: 20px;"
+                         "color: black; }"
+                         "QPushButton:hover { background-color: white; }");
+
+   ui->financialHelperButton->
+           setStyleSheet("QPushButton{ "
+                         "background-color: #F0F0F0;"
+                         "border-style: outset;"
+                         "border-width: 1px;"
+                         "border-color: black;"
+                         "border-radius: 20px;"
+                         "color: black; }"
+                         "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_billingReportButton_clicked()
@@ -1079,11 +1266,34 @@ void MainWindow::on_billingReportButton_clicked()
     ui->userPageStackedWidget->setCurrentIndex(1);
 
     // set button active
-    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+    ui->billingReportButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: black;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: white; }");
 
     // others passive
-    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
-    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+    ui->personalStatisticButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+    ui->financialHelperButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_financialHelperButton_clicked()
@@ -1091,11 +1301,35 @@ void MainWindow::on_financialHelperButton_clicked()
     ui->userPageStackedWidget->setCurrentIndex(2);
 
     // set button active
-    ui->financialHelperButton->setStyleSheet("QPushButton{ background-color: #A1ACB3; color: white; }");
+    ui->financialHelperButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: black;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: white; }");
 
     // others passive
-    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
-    ui->billingReportButton->setStyleSheet("QPushButton{ background-color: #F0F0F0; color: black }");
+    ui->personalStatisticButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
+
+    ui->billingReportButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white; }");
 }
 
 void MainWindow::on_actionLog_out_triggered()
@@ -1108,9 +1342,8 @@ void MainWindow::on_actionLog_out_triggered()
         ui->passwordEditField->clear();
         resize(416, 387);
         this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->authorizationPage->size(), qApp->desktop()->availableGeometry()));
-        adjustSize();
+        // adjustSize();
     } else{
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
     }
 }
-
