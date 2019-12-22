@@ -23,12 +23,15 @@
 #include <QtCharts/QPieSlice>
 #include <QPen>
 #include <QtGui>
+#include <iostream>
+#include <map>
+#include <list>
 
 QT_CHARTS_USE_NAMESPACE
 
 // initialize user Id variable to delete user
 int userId;
-
+QChartView *chartView;
 // function to check duplicates before adding new category
 // true - such category exists
 // false - you can insert new one
@@ -1250,30 +1253,52 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
         series->append("Category1", .2);
         series->append("Category2", .20);
         series->append("Category3", .50);
-        series->append("Category4", .28);
+        series->append("Category4", .20);
 
-        QPieSlice *slice0 = series->slices().at(0);
-        slice0->setLabelVisible();
+//        QPieSlice *slice0 = series->slices().at(0);
+//        slice0->setLabelVisible();
 
-        QPieSlice *slice1 = series->slices().at(1);
-        slice1->setExploded();
-        slice1->setLabelVisible();
-        slice1->setPen(QPen(Qt::darkCyan, 2));
-        slice1->setBrush(Qt::green);
+//        QPieSlice *slice1 = series->slices().at(1);
+//        slice1->setExploded();
+//        slice1->setLabelVisible();
+//        slice1->setPen(QPen(Qt::darkCyan, 2));
+//        slice1->setBrush(Qt::green);
 
-        QPieSlice *slice2 = series->slices().at(2);
-        slice2->setLabelVisible();
+//        QPieSlice *slice2 = series->slices().at(2);
+//        slice2->setLabelVisible();
 
-        QPieSlice *slice3 = series->slices().at(3);
-        slice3->setLabelVisible();
+//        QPieSlice *slice3 = series->slices().at(3);
+//        slice3->setLabelVisible();
+
+        QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
+        getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
+        getUserCategoriesIdsQuery.bindValue(":userId", users::Id);
+        QList<int> userCategoriesIds;
+        if (getUserCategoriesIdsQuery.exec()){
+            while (getUserCategoriesIdsQuery.next()) {
+                userCategoriesIds.append(getUserCategoriesIdsQuery.value(1).toInt());
+            }
+        } else {
+           QMessageBox::warning(this, "Database failed.", "Error: Doesn't match users categories id");
+        }
+
+        for (int var = 0; var < userCategoriesIds.size(); ++var) {
+            qDebug()<<userCategoriesIds[var];
+        }
+
+        for (int i = 0; i < 4; i++){
+            QPieSlice *slice = series->slices().at(i);
+            slice->setLabelVisible();
+        }
+
 
         QChart *chart = new QChart();
         chart->addSeries(series);
         chart->setTitle("TestChart");
 
-        chart->legend()->hide();
+        // chart->legend()->hide();
 
-        QChartView *chartView = new QChartView(chart);
+        chartView = new QChartView(chart);
         chartView->setRenderHint(QPainter::Antialiasing);
 
         QMainWindow window;
@@ -1402,4 +1427,10 @@ void MainWindow::on_actionLog_out_triggered()
     } else{
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
     }
+}
+
+
+void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
+{
+
 }

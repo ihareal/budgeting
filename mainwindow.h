@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QtCore>
 #include "askforuserbalance.h"
+#include <map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -100,6 +101,8 @@ private slots:
     void on_actionLog_out_triggered();
 
     void openUserPage();
+
+    void on_userPageStackedWidget_currentChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

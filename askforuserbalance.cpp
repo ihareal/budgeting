@@ -39,14 +39,12 @@ void askForUserBalance::on_okButton_clicked()
 
 void askForUserBalance::on_pushButton_2_clicked()
 {
-    users::Balance = "0";
     this->close();
     emit openUserPage();
 }
 
 void askForUserBalance::on_askForUserBalance_rejected()
 {
-    users::Balance = "0";
     this->close();
     emit openUserPage();
 }
