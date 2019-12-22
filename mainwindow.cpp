@@ -74,6 +74,38 @@ bool MainWindow::checkDuplicatedUsersCategories(int categoryId, int userId){
    }
 }
 
+void MainWindow::openUserPage(){
+    ui->stackedWidget->setCurrentIndex(3);
+    resize(871, 502);
+    qDebug()<<"Main window user balance"<<users::Balance;
+    ui->userBalanceLabel->setText(users::Balance);
+    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
+    ui->userPageStackedWidget->setCurrentIndex(0);
+    // set first button to active
+    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");
+
+    // others passive
+    ui->billingReportButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white;}");
+
+    ui->financialHelperButton->
+            setStyleSheet("QPushButton{ "
+                          "background-color: #F0F0F0;"
+                          "border-style: outset;"
+                          "border-width: 1px;"
+                          "border-color: black;"
+                          "border-radius: 20px;"
+                          "color: black; }"
+                          "QPushButton:hover { background-color: white;}");
+}
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -82,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     userBalanceWidget = new askForUserBalance();
+    connect(userBalanceWidget, &askForUserBalance::openUserPage, this, &MainWindow::openUserPage);
 
     // set authorization widget as default
     ui->stackedWidget->setCurrentIndex(0);
@@ -100,7 +133,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->createPasswordEditField->setEchoMode(QLineEdit::Password);
     messageBox = new QMessageBox();
     db = QSqlDatabase::addDatabase("QODBC");
-
 
     // db.setDatabaseName("DRIVER={SQL Server};SERVER=AMD_A10-7850K\\SQLEXPRESS;DATABASE=BudgetingDatabase;Trusted_Connection=true");
 
@@ -181,46 +213,18 @@ void MainWindow::on_loginButton_clicked()
                     // special admin id
                     users::Id = 999;
                  } else {
-                    // setup user Id
-                    QString userBalance = query.value(3).toString();
-                    users::Balance = userBalance;
-
-                    if (userBalance == 0){
-                        userBalanceWidget->show();
-                    }
-
+                    // setup user Id                    
                     users::Id = query.value(0).toInt();
-                    ui->stackedWidget->setCurrentIndex(3);
-                    resize(871, 502);
-                    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
-                    ui->userPageStackedWidget->setCurrentIndex(0);
-                    // set first button to active
-                    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");
 
-                    // others passive
-                    ui->billingReportButton->
-                            setStyleSheet("QPushButton{ "
-                                          "background-color: #F0F0F0;"
-                                          "border-style: outset;"
-                                          "border-width: 1px;"
-                                          "border-color: black;"
-                                          "border-radius: 20px;"
-                                          "color: black; }"
-                                          "QPushButton:hover { background-color: white;}");
-
-                    ui->financialHelperButton->
-                            setStyleSheet("QPushButton{ "
-                                          "background-color: #F0F0F0;"
-                                          "border-style: outset;"
-                                          "border-width: 1px;"
-                                          "border-color: black;"
-                                          "border-radius: 20px;"
-                                          "color: black; }"
-                                          "QPushButton:hover { background-color: white;}");
-                    // check the user id
-                    qDebug()<< users::Id;
+                    double checkUserBalance = query.value(3).toDouble();
+                    QString balance = query.value(3).toString();
+                    if (checkUserBalance == 0){
+                        userBalanceWidget->show();
+                    } else {
+                        users::Balance = query.value(3).toString();
+                        openUserPage();
+                    }
                 }
-
               }
             }
             try {

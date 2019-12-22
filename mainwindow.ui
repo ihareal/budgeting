@@ -62,7 +62,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="enabled">
@@ -585,8 +585,7 @@ border-radius: 10px;
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">
-</string>
+           <string notr="true"/>
           </property>
           <item>
            <property name="text">

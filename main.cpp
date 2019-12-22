@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QStyleFactory>
+#include "include/rapidjson/document.h"
 
 int main(int argc, char *argv[])
 {

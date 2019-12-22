@@ -26,8 +26,6 @@ public:
 
     bool checkDuplicatedCategories(QString str);
 
-    // bool checkDuplicatedUsersCategories(int categoryId, int userId);
-
 private slots:
 
     void on_loginButton_clicked();
@@ -100,6 +98,8 @@ private slots:
     void on_financialHelperButton_clicked();
 
     void on_actionLog_out_triggered();
+
+    void openUserPage();
 
 private:
     Ui::MainWindow *ui;

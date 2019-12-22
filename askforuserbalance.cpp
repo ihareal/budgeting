@@ -17,21 +17,36 @@ askForUserBalance::~askForUserBalance()
     delete ui;
 }
 
-void askForUserBalance::on_buttonBox_accepted()
+void askForUserBalance::on_okButton_clicked()
 {
     QSqlQuery query(QSqlDatabase::database());
-    query.prepare(QString("update BudgetingDatabase.dbo.Users SET Balance = :balance, isChecked = :isChecked where Id = :userId" ));
-    qDebug() << users::Id;
+    query.prepare(QString( "update BudgetingDatabase.dbo.Users SET Balance = :balance, isChecked = :isChecked where Id = :userId" ));
     bool isChecked = ui->checkBox->checkState();
-    double balance = ui->doubleSpinBox->value();
+    QString textBalance = ui->balanceLineEdit->text();
+    double balance = ui->balanceLineEdit->text().toDouble();
     query.bindValue(":isChecked", isChecked);
     query.bindValue(":balance", balance);
     query.bindValue(":userId", users::Id);
     if (!query.exec()){
       QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
     } else {
-        // setup user Id
       QMessageBox::information(this, "User notification.", "You data has successfully updated");
+        users::Balance = textBalance;
+        emit openUserPage();
+        this->close();
     }
+}
 
+void askForUserBalance::on_pushButton_2_clicked()
+{
+    users::Balance = "0";
+    this->close();
+    emit openUserPage();
+}
+
+void askForUserBalance::on_askForUserBalance_rejected()
+{
+    users::Balance = "0";
+    this->close();
+    emit openUserPage();
 }
