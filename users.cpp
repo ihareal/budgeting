@@ -5,7 +5,7 @@
 int users::Id = 0;
 QString users::Login = "";
 QString users::Password = "";
-double users::Balance = 0;
+QString users::Balance = "";
 
 users::users()
 {

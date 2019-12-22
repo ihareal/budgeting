@@ -81,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    userBalanceWidget = new askForUserBalance();
+
     // set authorization widget as default
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -181,7 +183,12 @@ void MainWindow::on_loginButton_clicked()
                  } else {
                     // setup user Id
                     QString userBalance = query.value(3).toString();
-                    ui->userBalanceLabel->setText(userBalance);
+                    users::Balance = userBalance;
+
+                    if (userBalance == 0){
+                        userBalanceWidget->show();
+                    }
+
                     users::Id = query.value(0).toInt();
                     ui->stackedWidget->setCurrentIndex(3);
                     resize(871, 502);
@@ -408,6 +415,20 @@ void MainWindow::on_createAccountButton_2_clicked()
 {
     QString pwd = ui->createPasswordEditField->text();
     QString login = ui->createLoginEditField->text();
+    double balance = ui->balanceEditField->text().toDouble();
+    QVariant currency = ui->currencyComboBox->itemText(ui->currencyComboBox->currentIndex());
+    bool checker = false;
+    int isChecked = 0;
+
+    // no need at showing dialog for users who have balance.
+    if (balance > 0){
+        checker = true;
+        isChecked = 1;
+    }else {
+        checker = false;
+        isChecked = 0;
+    }
+
     qint32 id = 0;
 
     if (pwd.length() != 0 && login.length() != 0){
@@ -431,9 +452,12 @@ void MainWindow::on_createAccountButton_2_clicked()
             if (id == 0){
                 // if we didn't found the user, we can create the new one.
                 QSqlQuery query1(QSqlDatabase::database("MyConnect"));
-                query1.prepare(QString("insert into BudgetingDatabase.dbo.Users (Balance, Login, Password) Values (0, :login, :password)" ));
+                query1.prepare(QString("insert into BudgetingDatabase.dbo.Users (Balance, Login, Password, Currency, IsChecked) Values (:balance, :login, :password, :currency, :isChecked)" ));
+                query1.bindValue(":balance", balance);
                 query1.bindValue(":login", login);
                 query1.bindValue(":password", pwd);
+                query1.bindValue(":currency", currency);
+                query1.bindValue(":isChecked", isChecked);
 
                 // check for query execution.
                 if (!query1.exec()){
@@ -1097,6 +1121,17 @@ void MainWindow::on_usersTableView_doubleClicked(const QModelIndex &index)
             ui->usersLoginUpdateEditField->setText(query.value(1).toString());
             ui->usersPasswordUpdateEditField->setText(query.value(2).toString());
             ui->usersBalanceUpdateEditField->setText(query.value(3).toString());
+            int index = ui->usersUpdateCurrencyComboBox->findText(query.value(4).toString());
+            uint checker = query.value(5).toUInt();
+            if (index >= 0){
+                ui->usersUpdateCurrencyComboBox->setCurrentIndex(index);
+            } else {}
+            if(checker == 1){
+                ui->usersUpdateCheckBox->setChecked(1);
+            } else if(checker == 0) {
+                ui->usersUpdateCheckBox->setChecked(0);
+            }
+
         }
     } else {
         QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
@@ -1163,17 +1198,31 @@ void MainWindow::on_usersCreateButton_clicked()
     QSqlQuery query(QSqlDatabase::database());
 
     // query
-    query.prepare("INSERT INTO BudgetingDatabase.dbo.Users (Login, Password, Balance) VALUES (:login, :password, :balance)");
+    //    query.prepare("INSERT INTO BudgetingDatabase.dbo.Users (Login, Password, Balance) VALUES (:login, :password, :balance)");
+    query.prepare(QString("insert into BudgetingDatabase.dbo.Users (Balance, Login, Password, Currency, IsChecked) Values (:balance, :login, :password, :currency, :isChecked)" ));
 
     // values
     QString login = ui->usersLoginCreateEditField->text();
     QString password = ui->usersPasswordCreateEditField->text();
     double balance = ui->usersBalanceCreateEditField->text().toDouble();
+    QString currency = ui->userCreateCurrenciesComboBox->itemText(ui->currencyComboBox->currentIndex());
+    bool checker = false;
+    int isChecked = 0;
+
+    if (balance > 0){
+        checker = true;
+        isChecked = 1;
+    } else{
+        checker = false;
+        isChecked = 0;
+    }
 
     // bind values
     query.bindValue(":login", login);
     query.bindValue(":password", password);
     query.bindValue(":balance", balance);
+    query.bindValue(":currency", currency);
+    query.bindValue(":isChecked", isChecked);
 
     if(!query.exec()){
         QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
@@ -1185,9 +1234,12 @@ void MainWindow::on_usersCreateButton_clicked()
 void MainWindow::on_stackedWidget_currentChanged(int arg1)
 {
     qDebug()<< "Stacked widget current change event: " << arg1;
+
     // find current index
     // ui->TablesStackedWidget->currentIndex()
     if (arg1 == 3){
+
+        ui->userBalanceLabel->setText(users::Balance);
 
         // draw chart if stacked widget index is on user page.
         QPieSeries *series = new QPieSeries();

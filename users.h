@@ -8,7 +8,7 @@ public:
     static int Id;
     static QString Login;
     static QString Password;
-    static double Balance;
+    static QString Balance;
     users();
 };
 

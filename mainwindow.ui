@@ -501,110 +501,30 @@ color: black;
         <property name="rightMargin">
          <number>50</number>
         </property>
-        <item row="3" column="1">
-         <widget class="QLabel" name="createNotificationLabel">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>12</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#createNotificationLabel{
-	text-align: center;
-	color: red;
-}</string>
-          </property>
-          <property name="text">
-           <string>Empty fields!</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0" colspan="2">
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>100</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="8" column="0" colspan="2">
-         <widget class="QPushButton" name="createAccountButton_2">
+        <item row="1" column="0" colspan="2">
+         <widget class="QLineEdit" name="createLoginEditField">
           <property name="font">
            <font>
             <family>Segoe UI</family>
             <pointsize>14</pointsize>
            </font>
           </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::ClickFocus</enum>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
           <property name="styleSheet">
-           <string notr="true">#createAccountButton_2 {
-background-color: black;
-border-color: yellow;
-color: white;
+           <string notr="true">#createLoginEditField{
+background-color: white; 
+border-style: outset;
+border-width: 1px;
 border-radius: 10px;
-}
-
-#createAccountButton_2:hover{
-background-color: white;
-color: black;
 }</string>
           </property>
-          <property name="text">
-           <string>Create</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0" colspan="2">
-         <widget class="QPushButton" name="goBackToLoginButton">
-          <property name="font">
-           <font>
-            <family>Segoe UI</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="mouseTracking">
-           <bool>true</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#goBackToLoginButton {
-background-color: black;
-border-color: yellow;
-color: white;
-border-radius: 10px;
-}
-
-#goBackToLoginButton:hover{
-background-color: white;
-color: black;
-}</string>
+          <property name="inputMask">
+           <string/>
           </property>
           <property name="text">
-           <string>Back to login page</string>
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Login</string>
           </property>
          </widget>
         </item>
@@ -650,8 +570,14 @@ border-radius: 10px;
           </property>
          </widget>
         </item>
-        <item row="1" column="0" colspan="2">
-         <widget class="QLineEdit" name="createLoginEditField">
+        <item row="4" column="0" colspan="2">
+         <widget class="QComboBox" name="currencyComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
@@ -659,21 +585,164 @@ border-radius: 10px;
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">#createLoginEditField{
+           <string notr="true">
+</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>BLR</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RUB</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>USD</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EUR</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="createNotificationLabel">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#createNotificationLabel{
+	text-align: center;
+	color: red;
+}</string>
+          </property>
+          <property name="text">
+           <string>Empty fields!</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0" colspan="2">
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>100</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="13" column="0" colspan="2">
+         <widget class="QPushButton" name="createAccountButton_2">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::ClickFocus</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#createAccountButton_2 {
+background-color: black;
+border-color: yellow;
+color: white;
+border-radius: 10px;
+}
+
+#createAccountButton_2:hover{
+background-color: white;
+color: black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Create</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0" colspan="2">
+         <widget class="QPushButton" name="goBackToLoginButton">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#goBackToLoginButton {
+background-color: black;
+border-color: yellow;
+color: white;
+border-radius: 10px;
+}
+
+#goBackToLoginButton:hover{
+background-color: white;
+color: black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Back to login page</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QLineEdit" name="balanceEditField">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#balanceEditField{
 background-color: white; 
 border-style: outset;
 border-width: 1px;
 border-radius: 10px;
 }</string>
           </property>
-          <property name="inputMask">
-           <string/>
-          </property>
           <property name="text">
-           <string/>
+           <string>0.0</string>
           </property>
           <property name="placeholderText">
-           <string>Login</string>
+           <string>Balance: 0.0</string>
           </property>
          </widget>
         </item>
@@ -877,7 +946,7 @@ color: black;
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="categoriesPage">
          <widget class="QTableView" name="categoriesTableView">
@@ -939,7 +1008,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1509,7 +1578,7 @@ background-color: #F0F0F0;
 color: black;
 }
 
-#paymentCreateBtn:hover{
+#paymentCreateBtn_2:hover{
 background-color: white;
 color: black;
 }</string>
@@ -2394,13 +2463,13 @@ border-radius: 10px;
                </property>
               </widget>
              </item>
-             <item row="3" column="0" colspan="2">
+             <item row="5" column="0" colspan="2">
               <layout class="QHBoxLayout" name="horizontalLayout_12">
                <property name="spacing">
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>125</number>
+                <number>45</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersCreateButton">
@@ -2432,6 +2501,49 @@ color: black;
                 </widget>
                </item>
               </layout>
+             </item>
+             <item row="4" column="1">
+              <widget class="QCheckBox" name="userCreateIsChekedCheckBox">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Is nullable balance notification disabled</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QComboBox" name="userCreateCurrenciesComboBox">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <item>
+                <property name="text">
+                 <string>BLR</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>RUB</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>USD</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>EUR</string>
+                </property>
+               </item>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -2557,13 +2669,13 @@ border-radius: 10px;
                </property>
               </widget>
              </item>
-             <item row="4" column="0" colspan="2">
+             <item row="6" column="0" colspan="2">
               <layout class="QHBoxLayout" name="horizontalLayout_9">
                <property name="spacing">
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>90</number>
+                <number>10</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersUpdateButton">
@@ -2619,6 +2731,49 @@ color: black;
                </property>
                <property name="text">
                 <string>Balance</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QComboBox" name="usersUpdateCurrencyComboBox">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <item>
+                <property name="text">
+                 <string>BLR</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>RUB</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>USD</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>EUR</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QCheckBox" name="usersUpdateCheckBox">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Is nullable balance notification disabled</string>
                </property>
               </widget>
              </item>
@@ -2863,7 +3018,7 @@ color: black;
          <widget class="QLabel" name="label_15">
           <property name="geometry">
            <rect>
-            <x>150</x>
+            <x>10</x>
             <y>380</y>
             <width>141</width>
             <height>21</height>
@@ -2882,7 +3037,7 @@ color: black;
          <widget class="QLabel" name="userBalanceLabel">
           <property name="geometry">
            <rect>
-            <x>300</x>
+            <x>160</x>
             <y>380</y>
             <width>81</width>
             <height>20</height>

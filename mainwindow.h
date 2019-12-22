@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QtSql>
 #include <QtCore>
+#include "askforuserbalance.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -109,5 +110,6 @@ private:
     QSqlTableModel *userCategoriesModel;
     QSqlDatabase db;
     QSqlRelationalTableModel *relationalModel;
+    askForUserBalance *userBalanceWidget;
 };
 #endif // MAINWINDOW_H

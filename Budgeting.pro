@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    askforuserbalance.cpp \
     categories.cpp \
     dbhelper.cpp \
     main.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     userscategories.cpp
 
 HEADERS += \
+    askforuserbalance.h \
     categories.h \
     dbhelper.h \
     mainwindow.h \
@@ -35,6 +37,7 @@ HEADERS += \
     userscategories.h
 
 FORMS += \
+    askforuserbalance.ui \
     mainwindow.ui
 
 # Default rules for deployment.
