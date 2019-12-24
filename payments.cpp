@@ -5,7 +5,7 @@
  float Payments::Cost = 0.0;
  int Payments::UserId = 0;
  QString Payments::Description = "";
- int Payments::Category = 0;
+ int Payments::CategoryId = 0;
  QDate Payments::Date = QDate::currentDate();
 
     // describes payment model

@@ -1270,6 +1270,9 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 //        QPieSlice *slice3 = series->slices().at(3);
 //        slice3->setLabelVisible();
 
+        // initialize payment counter & category name temp variables
+        double counter = 0;
+        QString categoryName = "";
         QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
         getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
         getUserCategoriesIdsQuery.bindValue(":userId", users::Id);
@@ -1282,10 +1285,43 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
            QMessageBox::warning(this, "Database failed.", "Error: Doesn't match users categories id");
         }
 
+        std::map<QString, int> usersPaymentsWithCategories;
         for (int var = 0; var < userCategoriesIds.size(); ++var) {
-            qDebug()<<userCategoriesIds[var];
-        }
+            // set counter & category name variables to default values
+            counter = 0;
+            categoryName = "";
 
+            // get user payments
+            QSqlQuery getUserPaymentsByCategoriesIds(QSqlDatabase::database());
+            getUserPaymentsByCategoriesIds.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments where payments.CategoryId = :categoryId");
+            getUserPaymentsByCategoriesIds.bindValue(":categoryId", userCategoriesIds[var]);            
+
+            if(getUserPaymentsByCategoriesIds.exec()){
+                while(getUserPaymentsByCategoriesIds.next()){
+                  counter += getUserPaymentsByCategoriesIds.value(1).toDouble();
+                 // if (getCategoryNameByIdQuery)
+            }
+        } else {
+              QMessageBox::warning(this, "Database failed", "Error: Doesn't found payments by categories Ids");
+          }
+
+            // get categories names
+            QSqlQuery getCategoryNameByIdQuery(QSqlDatabase::database());
+            getCategoryNameByIdQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
+            getCategoryNameByIdQuery.bindValue(":categoryId", userCategoriesIds[var]);
+
+            if(!getCategoryNameByIdQuery.exec()){
+                QMessageBox::warning(this, "Database failed", "Cannot get category name by Id.");
+            } else if(getCategoryNameByIdQuery.exec()) {
+                while(getCategoryNameByIdQuery.next()){
+                    categoryName = getCategoryNameByIdQuery.value(1).toString();
+                }
+            }
+
+            // Add category and payments sum for current category name
+            qDebug()<<"Sum for category: "<<categoryName<<" is a"<<counter;
+            usersPaymentsWithCategories.insert(std::pair<QString, int>(categoryName, counter));
+        }
         for (int i = 0; i < 4; i++){
             QPieSlice *slice = series->slices().at(i);
             slice->setLabelVisible();
@@ -1302,9 +1338,8 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
         chartView->setRenderHint(QPainter::Antialiasing);
 
         QMainWindow window;
-        ui->gridLayout->addWidget(chartView, 1, 2);
+        ui->gridLayout->addWidget(chartView, 1, 2);   
     }
-
 }
 
 void MainWindow::on_personalStatisticButton_clicked()
@@ -1427,10 +1462,4 @@ void MainWindow::on_actionLog_out_triggered()
     } else{
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
     }
-}
-
-
-void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
-{
-
 }

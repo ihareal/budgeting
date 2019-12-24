@@ -102,8 +102,6 @@ private slots:
 
     void openUserPage();
 
-    void on_userPageStackedWidget_currentChanged(int arg1);
-
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

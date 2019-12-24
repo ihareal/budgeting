@@ -10,7 +10,7 @@ public:
     static float Cost;
     static int UserId;
     static QString Description;
-    static int Category;
+    static int CategoryId;
     static QDate Date;
     Payments();
 };
