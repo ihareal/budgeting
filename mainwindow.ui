@@ -2873,7 +2873,7 @@ color: black;
           <x>20</x>
           <y>20</y>
           <width>171</width>
-          <height>401</height>
+          <height>501</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
@@ -2995,8 +2995,8 @@ color: black;
          <rect>
           <x>240</x>
           <y>20</y>
-          <width>611</width>
-          <height>401</height>
+          <width>691</width>
+          <height>511</height>
          </rect>
         </property>
         <property name="currentIndex">
@@ -3006,10 +3006,10 @@ color: black;
          <widget class="QWidget" name="gridLayoutWidget">
           <property name="geometry">
            <rect>
-            <x>9</x>
-            <y>-1</y>
-            <width>601</width>
-            <height>351</height>
+            <x>10</x>
+            <y>0</y>
+            <width>671</width>
+            <height>481</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout"/>
@@ -3018,7 +3018,7 @@ color: black;
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>380</y>
+            <y>480</y>
             <width>141</width>
             <height>21</height>
            </rect>
@@ -3037,7 +3037,7 @@ color: black;
           <property name="geometry">
            <rect>
             <x>160</x>
-            <y>380</y>
+            <y>480</y>
             <width>81</width>
             <height>20</height>
            </rect>

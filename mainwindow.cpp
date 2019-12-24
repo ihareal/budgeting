@@ -1248,12 +1248,11 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 
         ui->userBalanceLabel->setText(users::Balance);
 
-        // draw chart if stacked widget index is on user page.
-        QPieSeries *series = new QPieSeries();
-        series->append("Category1", .2);
-        series->append("Category2", .20);
-        series->append("Category3", .50);
-        series->append("Category4", .20);
+        // draw chart if stacked widget index is on user page.        
+//        series->append("Category1", .2);
+//        series->append("Category2", .20);
+//        series->append("Category3", .50);
+//        series->append("Category4", .20);
 
 //        QPieSlice *slice0 = series->slices().at(0);
 //        slice0->setLabelVisible();
@@ -1272,6 +1271,7 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 
         // initialize payment counter & category name temp variables
         double counter = 0;
+        double totalCounter = 0;
         QString categoryName = "";
         QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
         getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
@@ -1299,6 +1299,7 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
             if(getUserPaymentsByCategoriesIds.exec()){
                 while(getUserPaymentsByCategoriesIds.next()){
                   counter += getUserPaymentsByCategoriesIds.value(1).toDouble();
+                  totalCounter += counter;
                  // if (getCategoryNameByIdQuery)
             }
         } else {
@@ -1322,19 +1323,40 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
             qDebug()<<"Sum for category: "<<categoryName<<" is a"<<counter;
             usersPaymentsWithCategories.insert(std::pair<QString, int>(categoryName, counter));
         }
-        for (int i = 0; i < 4; i++){
-            QPieSlice *slice = series->slices().at(i);
-            slice->setLabelVisible();
-        }
 
+        QPieSeries *series = new QPieSeries();
+
+        // series->append("", 0);
+
+        std::map<QString, int>::iterator mapIterator;
+        int sliceIterator = 0;
+        for (mapIterator = usersPaymentsWithCategories.begin(); mapIterator != usersPaymentsWithCategories.end(); mapIterator++)
+        {
+           series->append(mapIterator->first, mapIterator->second);
+           ++sliceIterator;
+        }
+        QFont customFont;
+            customFont.setPixelSize(16);
+            customFont.Courier;
+
+        QPieSlice *slice = new QPieSlice();
+        for (int i = 0; i < sliceIterator; i++){
+            slice = series->slices().at(i);
+            slice->setLabelVisible();
+            slice->setLabelFont(customFont);
+        }
 
         QChart *chart = new QChart();
         chart->addSeries(series);
-        chart->setTitle("TestChart");
+        chart->setFont(customFont);
+        chart->setTitle("All costs");
 
         // chart->legend()->hide();
 
-        chartView = new QChartView(chart);
+        chart->legend()->setFont(customFont);
+
+        chartView = new QChartView(chart);       
+
         chartView->setRenderHint(QPainter::Antialiasing);
 
         QMainWindow window;
