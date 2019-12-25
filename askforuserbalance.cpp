@@ -31,7 +31,7 @@ void askForUserBalance::on_okButton_clicked()
       QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
     } else {
       QMessageBox::information(this, "User notification.", "You data has successfully updated");
-        users::Balance = textBalance;
+        users::Balance = balance;
         emit openUserPage();
         this->close();
     }
@@ -39,12 +39,14 @@ void askForUserBalance::on_okButton_clicked()
 
 void askForUserBalance::on_pushButton_2_clicked()
 {
+    users::Balance = 0;
     this->close();
     emit openUserPage();
 }
 
 void askForUserBalance::on_askForUserBalance_rejected()
 {
+    users::Balance = 0;
     this->close();
     emit openUserPage();
 }

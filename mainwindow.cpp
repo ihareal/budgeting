@@ -85,10 +85,9 @@ bool MainWindow::checkDuplicatedUsersCategories(int categoryId, int userId){
 }
 
 void MainWindow::openUserPage(){
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(3);   
+    ui->userPageStackedWidget->setCurrentIndex(0);
     resize(955, 610);
-    qDebug()<<"Main window user balance"<<users::Balance;
-    ui->userBalanceLabel->setText(users::Balance);
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
     ui->userPageStackedWidget->setCurrentIndex(0);    
 
@@ -239,7 +238,8 @@ void MainWindow::on_loginButton_clicked()
                     if (checkUserBalance == 0 && !isChecked){
                         userBalanceWidget->show();
                     } else {
-                        users::Balance = query.value(3).toString();
+                        users::Balance = query.value(3).toDouble();
+                        ui->userBalanceLabel->setText(QString::number(users::Balance));
                         openUserPage();
                     }
                 }
@@ -435,7 +435,7 @@ void MainWindow::on_loginEditField_textChanged(const QString &login)
 
 void MainWindow::on_createAccountButton_2_clicked()
 {
-    QString pwd = ui->createPasswordEditField->text();
+        QString pwd = ui->createPasswordEditField->text();
     QString login = ui->createLoginEditField->text();
     double balance = ui->balanceEditField->text().toDouble();
     QVariant currency = ui->currencyComboBox->itemText(ui->currencyComboBox->currentIndex());
@@ -1306,7 +1306,38 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     if (arg1 == 3){
         request.setUrl(QUrl("https://belarusbank.by/api/kursExchange?city=Минск"));
         manager->get(request);
-        ui->userBalanceLabel->setText(users::Balance);
+//        ui->userBalanceLabel->setText(users::Balance);
+
+        QSqlQuery getPaymentsQuery(QSqlDatabase::database());
+        getPaymentsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments  where payments.UserId = :userId");
+        getPaymentsQuery.bindValue(":userId", users::Id);
+        if (getPaymentsQuery.exec()){
+            while(getPaymentsQuery.next()){
+                QSqlQuery getCategoryQuery(QSqlDatabase::database());
+                getCategoryQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
+                getCategoryQuery.bindValue(":categoryId", getPaymentsQuery.value(4).toInt());
+
+                QSqlQuery getCurrencyTypeQuery(QSqlDatabase::database());
+                getCurrencyTypeQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Users users where users.Id = :userId");
+                getCurrencyTypeQuery.bindValue(":userId", getPaymentsQuery.value(2).toInt());
+                if (getCurrencyTypeQuery.exec()){
+                    while(getCurrencyTypeQuery.next()){
+                        ui->paymentsReport->append(getPaymentsQuery.value(1).toString() +" "+ getCurrencyTypeQuery.value(4).toString());
+                    }
+                }
+
+
+                if (getCategoryQuery.exec()){
+                    while(getCategoryQuery.next()){
+                        ui->paymentsReport->append(getCategoryQuery.value(1).toString());
+                        ui->paymentsReport->append(getPaymentsQuery.value(3).toString());
+                        ui->paymentsReport->append("*******************************************");
+                    }
+                }
+
+            }
+        }
+
 
         // draw chart if stacked widget index is on user page.        
 //        series->append("Category1", .2);
@@ -1442,6 +1473,7 @@ void MainWindow::on_actionLog_out_triggered()
     // we logged out the user
     if (users::Id != 0){
         users::Id = 0;
+        users::Balance = 0;
         ui->stackedWidget->setCurrentIndex(0);
         ui->loginEditField->clear();
         ui->passwordEditField->clear();
@@ -1456,6 +1488,19 @@ void MainWindow::on_actionLog_out_triggered()
 void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
 {
        if (arg1 == 0){
+
+        // get user balance
+        QSqlQuery getUserBalanceQuery(QSqlDatabase::database());
+        getUserBalanceQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Users users where users.Id = :userId");
+        getUserBalanceQuery.bindValue(":userId", users::Id);
+
+        if (getUserBalanceQuery.exec()){
+            while(getUserBalanceQuery.next()){
+                 users::Balance = getUserBalanceQuery.value(3).toDouble();
+            }
+            ui->userBalanceLabel->setText(QString::number(users::Balance));
+        }
+
         // initialize payment counter & category name temp variables
         double counter = 0;
         double totalCounter = 0;

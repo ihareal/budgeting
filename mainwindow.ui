@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>944</width>
-    <height>734</height>
+    <width>1009</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="font">
@@ -3018,7 +3018,7 @@ color: black;
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="chartPage">
          <widget class="QWidget" name="gridLayoutWidget">
@@ -3071,13 +3071,113 @@ color: black;
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="billingReportPage"/>
+        <widget class="QWidget" name="billingReportPage">
+         <widget class="QTextEdit" name="paymentsReport">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>0</y>
+            <width>411</width>
+            <height>501</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget_3">
+          <property name="geometry">
+           <rect>
+            <x>480</x>
+            <y>0</y>
+            <width>211</width>
+            <height>501</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="userCreatePaymentButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#userCreatePaymentButton{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
+color: black;
+}
+
+#userCreatePaymentButton:hover{
+background-color: white;
+color: black;
+}</string>
+             </property>
+             <property name="text">
+              <string>Create Payment</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="createCategoryButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#pushButton{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color:  black;
+border-radius: 20px;
+color: black;
+}
+
+#pushButton:hover{
+background-color: white;
+color: black;
+}</string>
+             </property>
+             <property name="text">
+              <string>Create Category</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
         <widget class="QWidget" name="financialHelperPage">
          <widget class="QPushButton" name="exchangeButton">
           <property name="geometry">
            <rect>
             <x>500</x>
-            <y>260</y>
+            <y>300</y>
             <width>71</width>
             <height>23</height>
            </rect>
@@ -3111,7 +3211,7 @@ color: black;
           <property name="geometry">
            <rect>
             <x>500</x>
-            <y>220</y>
+            <y>260</y>
             <width>69</width>
             <height>22</height>
            </rect>
@@ -3150,7 +3250,7 @@ border-radius: 10px;
           <property name="geometry">
            <rect>
             <x>260</x>
-            <y>100</y>
+            <y>140</y>
             <width>171</width>
             <height>41</height>
            </rect>
@@ -3169,7 +3269,7 @@ border-radius: 10px;
           <property name="geometry">
            <rect>
             <x>180</x>
-            <y>220</y>
+            <y>260</y>
             <width>311</width>
             <height>20</height>
            </rect>
@@ -3199,7 +3299,7 @@ border-radius: 10px;
           <property name="geometry">
            <rect>
             <x>180</x>
-            <y>260</y>
+            <y>300</y>
             <width>311</width>
             <height>20</height>
            </rect>
@@ -3229,7 +3329,7 @@ border-radius: 10px;
           <property name="geometry">
            <rect>
             <x>140</x>
-            <y>220</y>
+            <y>260</y>
             <width>41</width>
             <height>16</height>
            </rect>
@@ -3332,7 +3432,7 @@ color: #FFE1E0;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>944</width>
+     <width>1009</width>
      <height>21</height>
     </rect>
    </property>
