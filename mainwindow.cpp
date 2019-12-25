@@ -1302,44 +1302,12 @@ void MainWindow::on_usersCreateButton_clicked()
 
 void MainWindow::on_stackedWidget_currentChanged(int arg1)
 {
-    qDebug()<< "Stacked widget current change event: " << arg1;
-
     // find current index
     // ui->TablesStackedWidget->currentIndex()   
     if (arg1 == 3){
         request.setUrl(QUrl("https://belarusbank.by/api/kursExchange?city=Минск"));
         manager->get(request);
-//        ui->userBalanceLabel->setText(users::Balance);
-
-        QSqlQuery getPaymentsQuery(QSqlDatabase::database());
-        getPaymentsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments  where payments.UserId = :userId");
-        getPaymentsQuery.bindValue(":userId", users::Id);
-        if (getPaymentsQuery.exec()){
-            while(getPaymentsQuery.next()){
-                QSqlQuery getCategoryQuery(QSqlDatabase::database());
-                getCategoryQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
-                getCategoryQuery.bindValue(":categoryId", getPaymentsQuery.value(4).toInt());
-
-                QSqlQuery getCurrencyTypeQuery(QSqlDatabase::database());
-                getCurrencyTypeQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Users users where users.Id = :userId");
-                getCurrencyTypeQuery.bindValue(":userId", getPaymentsQuery.value(2).toInt());
-                if (getCurrencyTypeQuery.exec()){
-                    while(getCurrencyTypeQuery.next()){
-                        ui->paymentsReport->append(getPaymentsQuery.value(1).toString() +" "+ getCurrencyTypeQuery.value(4).toString());
-                    }
-                }
-
-
-                if (getCategoryQuery.exec()){
-                    while(getCategoryQuery.next()){
-                        ui->paymentsReport->append(getCategoryQuery.value(1).toString());
-                        ui->paymentsReport->append(getPaymentsQuery.value(3).toString());
-                        ui->paymentsReport->append("*******************************************");
-                    }
-                }
-
-            }
-        }
+//        ui->userBalanceLabel->setText(users::Balance);        
 
 
         // draw chart if stacked widget index is on user page.        
@@ -1647,6 +1615,36 @@ void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
            ui->personalStatisticButton->show();
            ui->billingReportButton->show();
            ui->financialHelperButton->show();
+
+           QSqlQuery getPaymentsQuery(QSqlDatabase::database());
+           getPaymentsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments  where payments.UserId = :userId");
+           getPaymentsQuery.bindValue(":userId", users::Id);
+           if (getPaymentsQuery.exec()){
+               while(getPaymentsQuery.next()){
+                   QSqlQuery getCategoryQuery(QSqlDatabase::database());
+                   getCategoryQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
+                   getCategoryQuery.bindValue(":categoryId", getPaymentsQuery.value(4).toInt());
+
+                   QSqlQuery getCurrencyTypeQuery(QSqlDatabase::database());
+                   getCurrencyTypeQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Users users where users.Id = :userId");
+                   getCurrencyTypeQuery.bindValue(":userId", getPaymentsQuery.value(2).toInt());
+                   if (getCurrencyTypeQuery.exec()){
+                       while(getCurrencyTypeQuery.next()){
+                           ui->paymentsReport->append(getPaymentsQuery.value(1).toString() +" "+ getCurrencyTypeQuery.value(4).toString());
+                       }
+                   }
+
+
+                   if (getCategoryQuery.exec()){
+                       while(getCategoryQuery.next()){
+                           ui->paymentsReport->append(getCategoryQuery.value(1).toString());
+                           ui->paymentsReport->append(getPaymentsQuery.value(3).toString());
+                           ui->paymentsReport->append("*******************************************");
+                       }
+                   }
+
+               }
+           }
        } else if (arg1 == 2){
            ui->personalStatisticButton->show();
            ui->billingReportButton->show();
