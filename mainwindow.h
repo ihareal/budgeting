@@ -114,11 +114,15 @@ private slots:
 
     void on_userCreatePaymentButton_clicked();
 
-    void on_createUserPaymentOkButton_clicked();
-
     void on_createUserPaymentCancelButton_clicked();
 
-    void on_createUserPaymentOkButton_clicked(bool checked);
+    void on_pushButton_clicked();
+
+    void on_createUserPaymentOkButton_clicked();
+
+    void on_createCategoryButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;

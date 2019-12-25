@@ -1022,7 +1022,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2024,7 +2024,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="iconSize">
            <size>
@@ -3176,16 +3176,16 @@ color: black;
          <widget class="QPushButton" name="exchangeButton">
           <property name="geometry">
            <rect>
-            <x>500</x>
-            <y>300</y>
-            <width>71</width>
-            <height>23</height>
+            <x>460</x>
+            <y>290</y>
+            <width>121</width>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -3210,16 +3210,16 @@ color: black;
          <widget class="QComboBox" name="comboBox">
           <property name="geometry">
            <rect>
-            <x>500</x>
-            <y>260</y>
-            <width>69</width>
-            <height>22</height>
+            <x>460</x>
+            <y>250</y>
+            <width>121</width>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>14</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -3249,16 +3249,16 @@ border-radius: 10px;
          <widget class="QLabel" name="label_17">
           <property name="geometry">
            <rect>
-            <x>260</x>
-            <y>140</y>
-            <width>171</width>
-            <height>41</height>
+            <x>190</x>
+            <y>180</y>
+            <width>241</width>
+            <height>51</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>14</pointsize>
+            <pointsize>20</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3268,16 +3268,16 @@ border-radius: 10px;
          <widget class="QLineEdit" name="amountToExchangeEditField">
           <property name="geometry">
            <rect>
-            <x>180</x>
-            <y>260</y>
+            <x>140</x>
+            <y>250</y>
             <width>311</width>
-            <height>20</height>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -3292,22 +3292,22 @@ border-radius: 10px;
            <string/>
           </property>
           <property name="placeholderText">
-           <string>Enter you amount that you want to convert</string>
+           <string>Your amount</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="exchangeResultReadonly">
           <property name="geometry">
            <rect>
-            <x>180</x>
-            <y>300</y>
+            <x>140</x>
+            <y>290</y>
             <width>311</width>
-            <height>20</height>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>12</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="styleSheet">
@@ -3328,16 +3328,16 @@ border-radius: 10px;
          <widget class="QLabel" name="label_18">
           <property name="geometry">
            <rect>
-            <x>140</x>
-            <y>260</y>
+            <x>90</x>
+            <y>250</y>
             <width>41</width>
-            <height>16</height>
+            <height>31</height>
            </rect>
           </property>
           <property name="font">
            <font>
             <family>Segoe UI</family>
-            <pointsize>14</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -3345,7 +3345,7 @@ border-radius: 10px;
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="page">
+        <widget class="QWidget" name="userPaymentPage">
          <widget class="QWidget" name="formLayoutWidget_7">
           <property name="geometry">
            <rect>
@@ -3548,7 +3548,7 @@ color: black;
          <widget class="QLabel" name="label_32">
           <property name="geometry">
            <rect>
-            <x>120</x>
+            <x>160</x>
             <y>60</y>
             <width>281</width>
             <height>41</height>
@@ -3562,6 +3562,102 @@ color: black;
           </property>
           <property name="text">
            <string>Add your own payment</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="userCategoryPage">
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>210</y>
+            <width>301</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#lineEdit{
+background-color: white;
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+          </property>
+          <property name="placeholderText">
+           <string>Enter your category</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton">
+          <property name="geometry">
+           <rect>
+            <x>320</x>
+            <y>210</y>
+            <width>181</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#pushButton{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color: black;
+color: black;
+border-radius: 10px;
+}
+
+#pushButton:hover{
+background-color: white;
+color: black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Add category</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>280</y>
+            <width>181</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#pushButton_2{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color: black;
+color: black;
+border-radius: 10px;
+}
+
+#pushButton_2:hover{
+background-color: white;
+color: black;
+}</string>
+          </property>
+          <property name="text">
+           <string>Go back</string>
           </property>
          </widget>
         </widget>
