@@ -112,6 +112,14 @@ private slots:
 
     void on_exchangeButton_clicked();
 
+    void on_userCreatePaymentButton_clicked();
+
+    void on_createUserPaymentOkButton_clicked();
+
+    void on_createUserPaymentCancelButton_clicked();
+
+    void on_createUserPaymentOkButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;

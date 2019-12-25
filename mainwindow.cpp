@@ -38,6 +38,7 @@ double currencyExchange = 0;
 QString currencyExchangeUsd = 0;
 QString currencyExchangeEur = 0;
 QString currencyExchangeRub = 0;
+QString category = "";
 
 // function to check duplicates before adding new category
 // true - such category exists
@@ -170,7 +171,9 @@ MainWindow::MainWindow(QWidget *parent)
     // setup date by default
     QDateTime setPaymentDateTime = QDateTime::currentDateTimeUtc();
     ui->paymentsCreateDateEdit->setDateTime(setPaymentDateTime);
-    ui->paymentsUpdateDateEditField->setDateTime(setPaymentDateTime);
+    ui->paymentsUpdateDateEditField->setDateTime(setPaymentDateTime);\
+
+    ui->dateEdit->setDateTime(setPaymentDateTime);
 
     // Some design features
     ui->createNewAccountPage->adjustSize();
@@ -1489,6 +1492,10 @@ void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
 {
        if (arg1 == 0){
 
+        ui->personalStatisticButton->show();
+        ui->billingReportButton->show();
+        ui->financialHelperButton->show();
+
         // get user balance
         QSqlQuery getUserBalanceQuery(QSqlDatabase::database());
         getUserBalanceQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Users users where users.Id = :userId");
@@ -1600,7 +1607,51 @@ void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
 
         QMainWindow window;
         ui->gridLayout->addWidget(chartView, 1, 2);
-    }
+    } else if (arg1 == 3){
+                       ui->personalStatisticButton->hide();
+                       ui->billingReportButton->hide();
+                       ui->financialHelperButton->hide();
+
+
+                       QList<int> userCategoriesIds;
+                       QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
+                       getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
+                       getUserCategoriesIdsQuery.bindValue(":userId", users::Id);
+                       if (getUserCategoriesIdsQuery.exec()){
+                           while (getUserCategoriesIdsQuery.next()) {
+                               userCategoriesIds.append(getUserCategoriesIdsQuery.value(1).toInt());
+                           }
+
+                           for (int i = 0; i < userCategoriesIds.size(); i++){
+                               // get categories names
+                               QSqlQuery getCategoryNameByIdQuery(QSqlDatabase::database());
+                               getCategoryNameByIdQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
+                               getCategoryNameByIdQuery.bindValue(":categoryId", userCategoriesIds[i]);
+
+                               if(!getCategoryNameByIdQuery.exec()){
+                                   QMessageBox::warning(this, "Database failed", "Cannot get category name by Id.");
+                               } else if(getCategoryNameByIdQuery.exec()) {
+                                   while(getCategoryNameByIdQuery.next()){
+                                       ui->userCreateCategoryComboBox->addItem(getCategoryNameByIdQuery.value(1).toString());
+                                   }
+
+
+                               }
+                           }
+
+                       } else {
+                          QMessageBox::warning(this, "Database failed.", "Error: Doesn't match users categories id");
+                       }
+                  }
+       else if (arg1 == 1){
+           ui->personalStatisticButton->show();
+           ui->billingReportButton->show();
+           ui->financialHelperButton->show();
+       } else if (arg1 == 2){
+           ui->personalStatisticButton->show();
+           ui->billingReportButton->show();
+           ui->financialHelperButton->show();
+       }
 }
 
 void MainWindow::on_comboBox_activated(const QString &arg1)
@@ -1638,4 +1689,60 @@ void MainWindow::on_exchangeButton_clicked()
     QString resultToDouble = QString::number(result);
     ui->exchangeResultReadonly->setText(resultToDouble);
     // ui->exchangeResultReadonly->setReadOnly(true);
+}
+
+void MainWindow::on_userCreatePaymentButton_clicked()
+{
+    ui->userPageStackedWidget->setCurrentIndex(3);
+    resize(970, 511);
+}
+
+void MainWindow::on_createUserPaymentOkButton_clicked()
+{
+
+    int categoryId = 0;
+    QString category = ui->userCreateCategoryComboBox->currentText();
+    QSqlQuery getCategoryId(QSqlDatabase::database());
+    getCategoryId.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Category = :category");
+    getCategoryId.bindValue(":category", category);
+    if(getCategoryId.exec()){
+        while (getCategoryId.next()){
+            categoryId = getCategoryId.value(0).toInt();
+        }
+    }
+
+
+    // values
+    double cost = ui->userCreateCostPaymentEdit->text().toDouble();
+    int userId = users::Id;
+    qDebug()<<"user Id"<<userId;
+    qDebug()<<"Category Id"<<categoryId;
+    QString description = ui->userCreatePaymentDescriptionEdit->text();
+    QDateTime date = ui->dateEdit->dateTime();
+
+    QSqlQuery query(QSqlDatabase::database());
+    query.prepare("INSERT INTO BudgetingDatabase.dbo.Payments (Cost, UserId, Description, CategoryId, Date) VALUES (:cost, :userId, :description, :categoryId, :date)");
+    // bind values
+    query.bindValue(":cost", cost);
+    query.bindValue(":userId", userId);
+    query.bindValue(":description", description);
+    query.bindValue(":categoryId", categoryId);
+    query.bindValue(":date", date);
+
+    if(!query.exec()){
+        QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
+    } else {
+        QMessageBox::information(this, "Database notification", "You successfully added new payment!");
+    }
+}
+
+void MainWindow::on_createUserPaymentCancelButton_clicked()
+{
+    ui->userPageStackedWidget->setCurrentIndex(1);
+    resize(955, 610);
+}
+
+void MainWindow::on_createUserPaymentOkButton_clicked(bool checked)
+{
+
 }
