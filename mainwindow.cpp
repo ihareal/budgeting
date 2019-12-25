@@ -79,7 +79,7 @@ bool MainWindow::checkDuplicatedUsersCategories(int categoryId, int userId){
 
 void MainWindow::openUserPage(){
     ui->stackedWidget->setCurrentIndex(3);
-    resize(871, 502);
+    resize(955, 610);
     qDebug()<<"Main window user balance"<<users::Balance;
     ui->userBalanceLabel->setText(users::Balance);
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
@@ -441,7 +441,7 @@ void MainWindow::on_createAccountButton_2_clicked()
     if (pwd.length() != 0 && login.length() != 0){
 
         QSqlQuery query(QSqlDatabase::database());
-        query.prepare(QString("select distinct(users.Login) from BudgetingDatabase.dbo.Users users where users.Login = :login" ));
+        query.prepare(QString("select users.Id from BudgetingDatabase.dbo.Users users where users.Login = :login" ));
         query.bindValue(":login", login);
 
         // execute the query
@@ -471,6 +471,50 @@ void MainWindow::on_createAccountButton_2_clicked()
                    QMessageBox::warning(this, "Database failed", "Error: The query hasn't executed.");
                 } else {
                         QMessageBox::information(this, "Create account notification", "You are successfully create account.");
+                                                QSqlQuery getUserIdQuery(QSqlDatabase::database());
+                                                getUserIdQuery.prepare("SELECT users.Id FROM BudgetingDatabase.dbo.Users users where users.Login = :login and users.Password = :pwd");
+                                                getUserIdQuery.bindValue(":login", login);
+                                                getUserIdQuery.bindValue(":pwd",pwd);
+                                                int userId = 0;
+                                                if (getUserIdQuery.exec()){
+                                                    while(getUserIdQuery.next()){
+                                                        userId = getUserIdQuery.value(0).toInt();
+                                                        qDebug()<<userId;
+                                                    }
+
+                                                // default categories list
+                                                QList<QString> categoriesList = {"Medicine", "Education", "Transport", "Food"};
+                                                QList<int> categoriesIdsList;
+
+                                                for(int i = 0; i < categoriesList.size(); i++){
+                                                    QSqlQuery getDefaultCategoriesIdsQuery(QSqlDatabase::database());
+                                                    getDefaultCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categoriesIds WHERE categoriesIds.Category =:category");
+                                                    qDebug()<<"Category "<<categoriesList[i];
+                                                    getDefaultCategoriesIdsQuery.bindValue(":category", categoriesList[i]);
+                                                    if (getDefaultCategoriesIdsQuery.exec()){
+                                                        while(getDefaultCategoriesIdsQuery.next()){
+                                                               qDebug()<<"Default Categories Ids: "<<getDefaultCategoriesIdsQuery.value(0).toInt();
+                                                               categoriesIdsList.append(getDefaultCategoriesIdsQuery.value(0).toInt());
+                                                    }
+                                                        // insert default categories
+                                                        QSqlQuery insertDefaultCategoriesQuery(QSqlDatabase::database());
+                                                        insertDefaultCategoriesQuery.prepare("INSERT INTO BudgetingDatabase.dbo.UsersCategories (UserId, CategoryId) VALUES (:userId, :categoryId)");
+                                                        qDebug()<< "Inserting default categories to userId: " << userId;
+                                                        qDebug()<< "Inserting default categories with categoryIds:" <<categoriesIdsList[i];
+                                                        insertDefaultCategoriesQuery.bindValue(":userId", userId);
+                                                        insertDefaultCategoriesQuery.bindValue(":categoryId", categoriesIdsList[i]);
+
+                                                        if(!insertDefaultCategoriesQuery.exec()){
+                                                        QMessageBox::warning(this, "Database notification", "Default categories doesn't insert");
+                                                        }
+
+                                                } else if (!getDefaultCategoriesIdsQuery.exec()){
+                                                    QMessageBox::warning(this, "Database notification", "Default categories doesn't found!");
+                                                }
+                                                }
+                                                } else if (!query.exec()){
+                                                    QMessageBox::warning(this, "Database notification", "User with such login and password doesn't exists in database.");
+                                                }
                         ui->stackedWidget->setCurrentIndex(0);
                       }
             }
