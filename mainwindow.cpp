@@ -1392,7 +1392,8 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 
         QChart *chart = new QChart();
         chart->addSeries(series);
-        chart->setFont(customFont);
+
+        chart->setTitleFont(customFont);
         chart->setTitle("All costs");
 
         // chart->legend()->hide();
