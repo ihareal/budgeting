@@ -62,7 +62,7 @@
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="authorizationPage">
        <property name="enabled">
@@ -944,8 +944,23 @@ color: black;
           <height>671</height>
          </rect>
         </property>
+        <property name="styleSheet">
+         <string notr="true">#categoriesCreateButton{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color: black;
+color: black;
+border-radius: 10px;
+}
+
+#categoriesCreateButton:hover{
+background-color: white;
+color: black;
+}</string>
+        </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="categoriesPage">
          <widget class="QTableView" name="categoriesTableView">
@@ -1370,12 +1385,7 @@ color: white;
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true">#dateTimeEdit_2{
-background-color: white; 
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-}</string>
+           <string notr="true"/>
           </property>
           <property name="tabPosition">
            <enum>QTabWidget::North</enum>
@@ -1384,7 +1394,7 @@ border-radius: 10px;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <property name="iconSize">
            <size>
@@ -1574,7 +1584,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#paymentCreateBtn_2{
 background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color: black;
 color: black;
+border-radius: 10px;
 }
 
 #paymentCreateBtn_2:hover{
@@ -1829,12 +1843,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#paymentUpdateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #paymentUpdateButton:hover{
@@ -1923,7 +1936,7 @@ border-radius: 10px;
               <x>20</x>
               <y>250</y>
               <width>577</width>
-              <height>33</height>
+              <height>27</height>
              </rect>
             </property>
             <property name="font">
@@ -1938,12 +1951,11 @@ border-radius: 10px;
             <property name="styleSheet">
              <string notr="true">#DeletePaymentButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #DeletePaymentButton:hover{
@@ -2124,12 +2136,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#usersCategoriesCreateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #usersCategoriesCreateButton:hover{
@@ -2235,7 +2246,7 @@ border-radius: 10px;
                 <number>1</number>
                </property>
                <property name="topMargin">
-                <number>160</number>
+                <number>170</number>
                </property>
                <item>
                 <widget class="QPushButton" name="usersCategoriesDeleteButton">
@@ -2248,13 +2259,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#usersCategoriesDeleteButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
-
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #usersCategoriesDeleteButton:hover{
@@ -2329,7 +2338,19 @@ color: black;
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">#categoriesCreateButton{
+background-color: #F0F0F0;
+border-style: outset;
+border-width: 1px;
+border-color: black;
+color: black;
+border-radius: 10px;
+}
+
+#categoriesCreateButton:hover{
+background-color: white;
+color: black;
+}</string>
           </property>
           <property name="tabPosition">
            <enum>QTabWidget::North</enum>
@@ -2338,7 +2359,7 @@ color: black;
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="iconSize">
            <size>
@@ -2481,12 +2502,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#usersCreateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #usersCreateButton:hover{
@@ -2687,12 +2707,11 @@ border-radius: 10px;
                  <property name="styleSheet">
                   <string notr="true">#usersUpdateButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #usersUpdateButton:hover{
@@ -2832,7 +2851,7 @@ border-radius: 10px;
               <x>20</x>
               <y>250</y>
               <width>577</width>
-              <height>33</height>
+              <height>27</height>
              </rect>
             </property>
             <property name="font">
@@ -2844,12 +2863,11 @@ border-radius: 10px;
             <property name="styleSheet">
              <string notr="true">#usersDeleteButton{
 background-color: #F0F0F0;
-/* color: green; */
-color: black;
-/* border-style: double;
+border-style: outset;
 border-width: 1px;
-border-color:	#E87F6F;
-*/
+border-color: black;
+color: black;
+border-radius: 10px;
 }
 
 #usersDeleteButton:hover{
@@ -3000,7 +3018,7 @@ color: black;
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="chartPage">
          <widget class="QWidget" name="gridLayoutWidget">
@@ -3054,7 +3072,150 @@ color: black;
          </widget>
         </widget>
         <widget class="QWidget" name="billingReportPage"/>
-        <widget class="QWidget" name="financialHelperPage"/>
+        <widget class="QWidget" name="financialHelperPage">
+         <widget class="QPushButton" name="exchangeButton">
+          <property name="geometry">
+           <rect>
+            <x>450</x>
+            <y>240</y>
+            <width>71</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox">
+          <property name="geometry">
+           <rect>
+            <x>450</x>
+            <y>200</y>
+            <width>69</width>
+            <height>22</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>USD</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EUR</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RUB</string>
+           </property>
+          </item>
+         </widget>
+         <widget class="QLabel" name="label_17">
+          <property name="geometry">
+           <rect>
+            <x>270</x>
+            <y>110</y>
+            <width>171</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Currency converter</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="amountToExchangeEditField">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>200</y>
+            <width>311</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#amountToExchangeEditField{
+background-color: white;
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Enter you amount that you want to convert</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="exchangeResultReadonly">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>240</y>
+            <width>311</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">#exchangeResultReadonly{
+background-color: white;
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+}</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Result</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_18">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>200</y>
+            <width>41</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>BYN</string>
+          </property>
+         </widget>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="adminSelectionPage">

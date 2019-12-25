@@ -8,6 +8,9 @@
 #include <QtCore>
 #include "askforuserbalance.h"
 #include <map>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,6 +45,7 @@ private slots:
     void on_createPasswordEditField_textChanged(const QString &arg1);
 
     void on_createLoginEditField_textChanged(const QString &arg1);
+
     void on_goBackToLoginButton_clicked();
 
     void on_paymentsTableView_activated(const QModelIndex &index);
@@ -102,6 +106,12 @@ private slots:
 
     void openUserPage();
 
+    void on_userPageStackedWidget_currentChanged(int arg1);
+
+    void on_comboBox_activated(const QString &arg1);
+
+    void on_exchangeButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
@@ -112,5 +122,7 @@ private:
     QSqlDatabase db;
     QSqlRelationalTableModel *relationalModel;
     askForUserBalance *userBalanceWidget;
+    QNetworkAccessManager *manager;
+    QNetworkRequest request;
 };
 #endif // MAINWINDOW_H

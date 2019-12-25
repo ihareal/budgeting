@@ -26,12 +26,19 @@
 #include <iostream>
 #include <map>
 #include <list>
+#include "include/rapidjson/document.h"
+#include <sstream>
 
 QT_CHARTS_USE_NAMESPACE
 
 // initialize user Id variable to delete user
 int userId;
 QChartView *chartView;
+double currencyExchange = 0;
+QString currencyExchangeUsd = 0;
+QString currencyExchangeEur = 0;
+QString currencyExchangeRub = 0;
+
 // function to check duplicates before adding new category
 // true - such category exists
 // false - you can insert new one
@@ -83,9 +90,10 @@ void MainWindow::openUserPage(){
     qDebug()<<"Main window user balance"<<users::Balance;
     ui->userBalanceLabel->setText(users::Balance);
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, ui->userPage->size(), qApp->desktop()->availableGeometry()));
-    ui->userPageStackedWidget->setCurrentIndex(0);
+    ui->userPageStackedWidget->setCurrentIndex(0);    
+
     // set first button to active
-    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");
+    ui->personalStatisticButton->setStyleSheet("QPushButton{ background-color: black; border-style: outset; border-width: 1px; border-color:  black; border-radius: 20px; color: white; }");  
 
     // others passive
     ui->billingReportButton->
@@ -114,6 +122,44 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
+    manager = new QNetworkAccessManager();
+        QObject::connect(manager, &QNetworkAccessManager::finished,
+            this, [=](QNetworkReply *reply) {
+                if (reply->error()) {
+                    qDebug() << reply->errorString();
+                    return;
+                }
+
+                QString strReply = (QString)reply->readAll();
+                QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
+                // const char json[] = "{ \"hello\" : \"world\" }";
+
+//                rapidjson::Document d;
+//                d.Parse<0>(strRep);
+
+//                qDebug()<<d["USD_in"].GetString();
+//                qDebug()<<d["USD_out"].GetString();
+
+                QJsonArray json_array = jsonResponse.array();
+                foreach (const QJsonValue &value, json_array) {
+                    QJsonObject json_obj = value.toObject();
+                    if(json_obj["street"].toString() == "Ленина"){
+                        currencyExchangeUsd = json_obj["USD_out"].toString();
+                        currencyExchangeEur = json_obj["EUR_out"].toString();
+                        currencyExchangeRub = json_obj["RUB_out"].toString();
+                        qDebug() << currencyExchangeUsd;
+                        qDebug() << currencyExchangeEur;
+                        qDebug() << currencyExchangeRub;
+                        }
+                    }
+
+//                qDebug() << answer.contains("USD_in");
+//                qDebug() << answer.contains("USD_out");
+            }
+        );
+
+    qDebug()<<QSslSocket::sslLibraryBuildVersionString();
     ui->setupUi(this);
 
     userBalanceWidget = new askForUserBalance();
@@ -149,44 +195,12 @@ MainWindow::MainWindow(QWidget *parent)
         QMessageBox::warning(this, "Database failed", "There is no connection with database.");
     }
 
-    //    this->model = new QSqlQueryModel();
-    //    model->setQuery("SELECT pd.CreationDate, pd.Latitude, pd.Longitude, ud.District, ud.isAdmin FROM EcoServiceDB.dbo.UserDetails ud inner join EcoServiceDB.dbo.PollutionDetails pd on ud.UserId = pd.UserId");
-    //    ui->tableView->setModel(model);
-
-    // ******* DATABASE OPENING CHECKING *******
-    //    if (db.open()){
-    //        messageBox->setText("Success");
-    //        qDebug()<<"Opened";
-    //    }
-    //    else{
-    //        messageBox ->setText("Failure(");
-    //        qDebug()<<db.lastError().text();
-    //    }
-
-
-    // ***** RELATIONAL MODEL *****
-
-    // relationalModel = new QSqlRelationalTableModel(this);
-    // relationalModel->setTable("EcoServiceDB.dbo.UserDetails");
-    // relationalModel->setRelation(0, QSqlRelation("EcoServiceDB.dbo.PollutionDetails","UserId", "PollutionId"));
-    // QSqlRelation("PollutionDetails", "CreationDate", "Latitude", "Longitude")
-    // relationalModel->select();
-    // ui->tableView->setModel(relationalModel);
-    // messageBox->show();
-
-
-
-    // ******** StyleSheet for CreateAccountButton ********
-    // ui->createAccountButton->
-    //        setStyleSheet("QPushButton{ background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 grey); border-radius: 10px; }"
-    //                      "QPushButton:hover{ background-color: red; border-radius: 0 px; }");
-
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;  
+    delete manager;
 }
 
 void MainWindow::on_loginButton_clicked()
@@ -221,7 +235,8 @@ void MainWindow::on_loginButton_clicked()
 
                     double checkUserBalance = query.value(3).toDouble();
                     QString balance = query.value(3).toString();
-                    if (checkUserBalance == 0){
+                    bool isChecked = query.value(5).toBool();
+                    if (checkUserBalance == 0 && !isChecked){
                         userBalanceWidget->show();
                     } else {
                         users::Balance = query.value(3).toString();
@@ -1287,9 +1302,10 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     qDebug()<< "Stacked widget current change event: " << arg1;
 
     // find current index
-    // ui->TablesStackedWidget->currentIndex()
+    // ui->TablesStackedWidget->currentIndex()   
     if (arg1 == 3){
-
+        request.setUrl(QUrl("https://belarusbank.by/api/kursExchange?city=Минск"));
+        manager->get(request);
         ui->userBalanceLabel->setText(users::Balance);
 
         // draw chart if stacked widget index is on user page.        
@@ -1312,100 +1328,6 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 
 //        QPieSlice *slice3 = series->slices().at(3);
 //        slice3->setLabelVisible();
-
-        // initialize payment counter & category name temp variables
-        double counter = 0;
-        double totalCounter = 0;
-        QString categoryName = "";
-        QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
-        getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
-        getUserCategoriesIdsQuery.bindValue(":userId", users::Id);
-        QList<int> userCategoriesIds;
-        if (getUserCategoriesIdsQuery.exec()){
-            while (getUserCategoriesIdsQuery.next()) {
-                userCategoriesIds.append(getUserCategoriesIdsQuery.value(1).toInt());
-            }
-        } else {
-           QMessageBox::warning(this, "Database failed.", "Error: Doesn't match users categories id");
-        }
-
-        std::map<QString, int> usersPaymentsWithCategories;
-        for (int var = 0; var < userCategoriesIds.size(); ++var) {
-            // set counter & category name variables to default values
-            counter = 0;
-            categoryName = "";
-
-            // get user payments
-            QSqlQuery getUserPaymentsByCategoriesIds(QSqlDatabase::database());
-            getUserPaymentsByCategoriesIds.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments where payments.CategoryId = :categoryId");
-            getUserPaymentsByCategoriesIds.bindValue(":categoryId", userCategoriesIds[var]);            
-
-            if(getUserPaymentsByCategoriesIds.exec()){
-                while(getUserPaymentsByCategoriesIds.next()){
-                  counter += getUserPaymentsByCategoriesIds.value(1).toDouble();
-                  totalCounter += counter;
-                 // if (getCategoryNameByIdQuery)
-            }
-        } else {
-              QMessageBox::warning(this, "Database failed", "Error: Doesn't found payments by categories Ids");
-          }
-
-            // get categories names
-            QSqlQuery getCategoryNameByIdQuery(QSqlDatabase::database());
-            getCategoryNameByIdQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
-            getCategoryNameByIdQuery.bindValue(":categoryId", userCategoriesIds[var]);
-
-            if(!getCategoryNameByIdQuery.exec()){
-                QMessageBox::warning(this, "Database failed", "Cannot get category name by Id.");
-            } else if(getCategoryNameByIdQuery.exec()) {
-                while(getCategoryNameByIdQuery.next()){
-                    categoryName = getCategoryNameByIdQuery.value(1).toString();
-                }
-            }
-
-            // Add category and payments sum for current category name
-            qDebug()<<"Sum for category: "<<categoryName<<" is a"<<counter;
-            usersPaymentsWithCategories.insert(std::pair<QString, int>(categoryName, counter));
-        }
-
-        QPieSeries *series = new QPieSeries();
-
-        // series->append("", 0);
-
-        std::map<QString, int>::iterator mapIterator;
-        int sliceIterator = 0;
-        for (mapIterator = usersPaymentsWithCategories.begin(); mapIterator != usersPaymentsWithCategories.end(); mapIterator++)
-        {
-           series->append(mapIterator->first, mapIterator->second);
-           ++sliceIterator;
-        }
-        QFont customFont;
-            customFont.setPixelSize(16);
-            customFont.Courier;
-
-        QPieSlice *slice = new QPieSlice();
-        for (int i = 0; i < sliceIterator; i++){
-            slice = series->slices().at(i);
-            slice->setLabelVisible();
-            slice->setLabelFont(customFont);
-        }
-
-        QChart *chart = new QChart();
-        chart->addSeries(series);
-
-        chart->setTitleFont(customFont);
-        chart->setTitle("All costs");
-
-        // chart->legend()->hide();
-
-        chart->legend()->setFont(customFont);
-
-        chartView = new QChartView(chart);       
-
-        chartView->setRenderHint(QPainter::Antialiasing);
-
-        QMainWindow window;
-        ui->gridLayout->addWidget(chartView, 1, 2);   
     }
 }
 
@@ -1529,4 +1451,146 @@ void MainWindow::on_actionLog_out_triggered()
     } else{
         QMessageBox::information(this, "User notification", "<p align=\"center\">You have no opportunity to log out wihtout being logged in.\nPlease log in at first </p>");
     }
+}
+
+void MainWindow::on_userPageStackedWidget_currentChanged(int arg1)
+{
+       if (arg1 == 0){
+        // initialize payment counter & category name temp variables
+        double counter = 0;
+        double totalCounter = 0;
+        QString categoryName = "";
+        QSqlQuery getUserCategoriesIdsQuery(QSqlDatabase::database());
+        getUserCategoriesIdsQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.UsersCategories ucat where ucat.UserId = :userId");
+        getUserCategoriesIdsQuery.bindValue(":userId", users::Id);
+        QList<int> userCategoriesIds;
+        if (getUserCategoriesIdsQuery.exec()){
+            while (getUserCategoriesIdsQuery.next()) {
+                userCategoriesIds.append(getUserCategoriesIdsQuery.value(1).toInt());
+            }
+        } else {
+           QMessageBox::warning(this, "Database failed.", "Error: Doesn't match users categories id");
+        }
+
+        std::map<QString, int> usersPaymentsWithCategories;
+        for (int var = 0; var < userCategoriesIds.size(); ++var) {
+            // set counter & category name variables to default values
+            counter = 0;
+            categoryName = "";
+
+            // get user payments
+            QSqlQuery getUserPaymentsByCategoriesIds(QSqlDatabase::database());
+            getUserPaymentsByCategoriesIds.prepare("SELECT * FROM BudgetingDatabase.dbo.Payments payments where payments.CategoryId = :categoryId");
+            getUserPaymentsByCategoriesIds.bindValue(":categoryId", userCategoriesIds[var]);
+
+            if(getUserPaymentsByCategoriesIds.exec()){
+                while(getUserPaymentsByCategoriesIds.next()){
+                  counter += getUserPaymentsByCategoriesIds.value(1).toDouble();
+                  totalCounter += counter;
+                 // if (getCategoryNameByIdQuery)
+            }
+        } else {
+              QMessageBox::warning(this, "Database failed", "Error: Doesn't found payments by categories Ids");
+          }
+
+            // get categories names
+            QSqlQuery getCategoryNameByIdQuery(QSqlDatabase::database());
+            getCategoryNameByIdQuery.prepare("SELECT * FROM BudgetingDatabase.dbo.Categories categories where categories.Id = :categoryId");
+            getCategoryNameByIdQuery.bindValue(":categoryId", userCategoriesIds[var]);
+
+            if(!getCategoryNameByIdQuery.exec()){
+                QMessageBox::warning(this, "Database failed", "Cannot get category name by Id.");
+            } else if(getCategoryNameByIdQuery.exec()) {
+                while(getCategoryNameByIdQuery.next()){
+                    categoryName = getCategoryNameByIdQuery.value(1).toString();
+                }
+            }
+
+            // Add category and payments sum for current category name
+            qDebug()<<"Sum for category: "<<categoryName<<" is a"<<counter;
+            usersPaymentsWithCategories.insert(std::pair<QString, int>(categoryName, counter));
+        }
+
+        QPieSeries *series = new QPieSeries();
+
+        std::map<QString, int>::iterator mapIterator;
+        int sliceIterator = 0;
+        for (mapIterator = usersPaymentsWithCategories.begin(); mapIterator != usersPaymentsWithCategories.end(); mapIterator++)
+        {
+           series->append(mapIterator->first, mapIterator->second);
+           ++sliceIterator;
+        }
+
+        QFont customFont;
+            customFont.setPixelSize(16);
+            customFont.Courier;
+
+        QPieSlice *slice = new QPieSlice();
+        for (int i = 0; i < sliceIterator; i++){
+            slice = series->slices().at(i);
+            slice->setLabelVisible();
+            slice->setLabelFont(customFont);
+        }
+
+        if (totalCounter == 0){
+            series->append("No information about your payments.", 100);
+            slice = series->slices().at(0);
+            slice->setLabelVisible();
+            slice->setLabelFont(customFont);
+        }
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+
+        chart->setTitleFont(customFont);
+        chart->setTitle("All costs");
+
+        // chart->legend()->hide();
+
+        chart->legend()->setFont(customFont);
+
+        chartView = new QChartView(chart);
+
+        chartView->setRenderHint(QPainter::Antialiasing);
+
+        QMainWindow window;
+        ui->gridLayout->addWidget(chartView, 1, 2);
+    }
+}
+
+void MainWindow::on_comboBox_activated(const QString &arg1)
+{
+
+    if (arg1 == "USD"){
+        currencyExchange = currencyExchangeUsd.toDouble();
+        qDebug()<<"currencyExchange after convertation" << currencyExchange;
+    } else if(arg1 == "EUR"){
+        currencyExchange = currencyExchangeEur.toDouble();
+        qDebug()<<"currencyExchange after convertation" << currencyExchange;
+    } else if (arg1 == "RUB"){
+        currencyExchange = currencyExchangeRub.toDouble() / 100;
+        qDebug()<<"currencyExchange after convertation" << currencyExchange;
+    } else {
+        QMessageBox::warning(this, "Exchange error", "Please, choose the currency");
+    }
+
+}
+
+void MainWindow::on_exchangeButton_clicked()
+{
+    // by default set exchange to usd
+    if (currencyExchange == 0){
+        currencyExchange = currencyExchangeUsd.toDouble();
+    }
+
+    double toExchange = ui->amountToExchangeEditField->text().toDouble();
+    qDebug()<<"What we exchange"<<toExchange;
+    qDebug()<<"Exchange currency"<<currencyExchange;
+
+    double result = toExchange / currencyExchange;
+    qDebug()<<"Result: "<<result;
+
+    QString resultToDouble = QString::number(result);
+    ui->exchangeResultReadonly->setText(resultToDouble);
+    // ui->exchangeResultReadonly->setReadOnly(true);
 }
